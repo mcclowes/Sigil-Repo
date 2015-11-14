@@ -52,14 +52,9 @@ body {
     }
 
     .box:hover{
-        background: #6699FF;
+        background-color: #6699FF;
         background-size: 100%;
-        opacity: 0.5;
         cursor: pointer;
-    }
-
-    .opened { 
-        background: #6699FF;
     }
 
     .opened > div{
@@ -68,19 +63,19 @@ body {
     }
 
     .opened-p1.flip {
-        background: url("../img/piece_p1.png");
+        background-image: url("../img/piece_p1.png");
         background-size: 100%;
     }
 
     .opened-p2.flip {
-        background: url("../img/piece_p2.png");
+        background-image: url("../img/piece_p2.png");
         background-size: 100%;
     }
 }
 
 .wrapper.p1-turn {
     .box:not(.opened):hover{
-        background: #6699FF url("../img/piece_p1.png");
+        background-image: url("../img/piece_p1.png");
         background-size: 100%;
         opacity: 0.5;
         cursor: pointer;
@@ -89,10 +84,30 @@ body {
 
 .wrapper.p2-turn {
     .box:not(.opened):hover{
-        background: #6699FF url("../img/piece_p2.png");
+        background-image: url("../img/piece_p2.png");
         background-size: 100%;
         opacity: 0.5;
         cursor: pointer;
     }
+}
+
+.hand.p1-hand {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+.hand.p2-hand {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.card {
+    width: 150px;
+    height: 225px;
+    text-align: center;
+    float: left;
+    background-color: grey;
 }
 

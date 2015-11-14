@@ -1,0 +1,28 @@
+[
+	{
+		"name": "Fireball",
+		"effects":
+			[
+				"deal 1 damage",
+				"draw a card"
+			]
+	},
+
+	{
+		"name": "Floods",
+		"effects": [
+			{
+				"effect": "destroy all pieces"
+			}
+		]
+	},
+
+	{
+		"name": "Taxes",
+		"effects": [
+			{
+				"effect": "draw 2 cards"
+			}
+		]
+	}
+]

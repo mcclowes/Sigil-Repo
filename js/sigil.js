@@ -1,6 +1,27 @@
 $(function(){
 
-    function Board(){
+    function Player() {
+        this.deck = [];
+        this.hand = [];
+        this.discard = [];
+
+        this.createDeck= function(player){
+            $.getJSON( "js/deck_p" + player + ".json", function( data ) {
+                var items = [];
+                $.each( data, function( key, val ) {
+                items.push( "<li id='" + key + "'>" + val + "</li>" );
+                });
+
+                $( "<ul/>", {
+                "class": "card ",
+                html: items.join( "" )
+                }).appendTo( "body" );
+            });
+            this.deck = items;
+        };
+    }
+
+    function Board() {
         this.results = [];
         this.currentPlayer = 0;
 
@@ -20,22 +41,37 @@ $(function(){
             this.currentPlayer = 1;
         };
 
+        // Changes current turn
+        this.endTurn = function(){
+            if (this.currentPlayer === 1) {
+                window.console.log('changin');
+                this.currentPlayer = -1;
+                $('.wrapper').removeClass('p1-turn');
+                $('.wrapper').addClass('p2-turn');
+            } else {
+                this.currentPlayer = 1;
+                $('.wrapper').removeClass('p2-turn');
+                $('.wrapper').addClass('p1-turn');
+            }
+        };
+
         // Handle cell click
         this.updateCell = function(row,col){
-            console.log('Updating cell');
+            window.console.log('Updating cell');
             if (this.results[row][col] !== 0){
                 window.alert("The cell is occupied!");
             } else{
                 this.results[row][col] = this.currentPlayer;
-                console.log('row: ' + row +', ' + col);
+                window.console.log('row: ' + row +', ' + col);
                 var $divgrid = $("div").find("[row="+row+"]"+"[col="+col+"]");
                 $divgrid.parent().addClass("opened flip");
-                console.log('Real player ' + this.currentPlayer);
+                window.console.log('Real player ' + this.currentPlayer);
                 if (this.currentPlayer === 1){
                     $divgrid.parent().addClass("opened-p1");
                 } else {
                     $divgrid.parent().addClass("opened-p2");
                 }
+                this.endTurn();
             }
         };
 
@@ -58,25 +94,10 @@ $(function(){
             return turns_left;
         };
 
-        // Changes current turn
-        this.endTurn = function(){
-            if (this.currentPlayer === 1) {
-                console.log('changin');
-                this.currentPlayer = -1;
-                $('.wrapper').removeClass('p1-turn');
-                $('.wrapper').addClass('p2-turn');
-            } else {
-                this.currentPlayer = 1;
-                $('.wrapper').removeClass('p2-turn');
-                $('.wrapper').addClass('p1-turn');
-            }
-        };
-
         // Turn execution function
         this.playGame = function(row,col){
             if (this.determineWinner() === undefined){
                 this.updateCell(row, col);
-                this.endTurn();
             }
             this.gameOver();
         };
@@ -141,6 +162,14 @@ $(function(){
 
     var b = new Board();
     b.initiateBoard();
+
+    var player1 = new Player();
+    var player2 = new Player();
+    player1.createDeck(1);
+    player2.createDeck(2);
+
+    $(".p1-hand").sortable();
+    $(".p2-hand").sortable();
 
     $('.box').click(function(){
         var cols = $(this).children().attr("col");
