@@ -1,0 +1,79 @@
+body {
+  font-family: 'helvetica';
+}
+.wrapper {
+  width: 562px;
+  height: 562px;
+  font-size: 82px;
+  overflow: hidden;
+  background: #eee;
+}
+#button_wrapper {
+  margin-bottom: 10px;
+}
+/* flipping */
+.flip-container {
+  perspective: 1000;
+  transform-style: preserve-3d;
+  height: 140px;
+  display: table;
+  -webkit-transform-style: preserve-3d;
+  -webkit-perspective: 1000px;
+}
+.flip-container .flip {
+  transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg);
+}
+.flip-container .flipper {
+  transition: 0.6s;
+  -webkit-transition: -webkit-transform 0.6s;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  position: relative;
+}
+.flip-container .box {
+  height: 100%;
+  width: 185px;
+  border: 1px dotted black;
+  display: table-cell;
+}
+.flip-container .box > div {
+  position: absolute;
+  top: 50%;
+  left: 35%;
+  transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+}
+.flip-container .box:hover {
+  background: #6699FF;
+  background-size: 100%;
+  opacity: 0.5;
+  cursor: pointer;
+}
+.flip-container .opened {
+  background: #6699FF;
+}
+.flip-container .opened > div {
+  font-weight: bold;
+  color: red;
+}
+.flip-container .opened-p1.flip {
+  background: url("../img/piece_p1.png");
+  background-size: 100%;
+}
+.flip-container .opened-p2.flip {
+  background: url("../img/piece_p2.png");
+  background-size: 100%;
+}
+.wrapper.p1-turn .box:not(.opened):hover {
+  background: #6699FF url("../img/piece_p1.png");
+  background-size: 100%;
+  opacity: 0.5;
+  cursor: pointer;
+}
+.wrapper.p2-turn .box:not(.opened):hover {
+  background: #6699FF url("../img/piece_p2.png");
+  background-size: 100%;
+  opacity: 0.5;
+  cursor: pointer;
+}
