@@ -3,26 +3,24 @@ cards = [
 		"name": "Fireball",
 		"effects":
 			[
-				"deal 1 damage",
-				"draw a card"
+				"Deal 1 damage",
+				"Draw a card"
 			]
 	},
 
 	{
 		"name": "Floods",
-		"effects": [
-			{
-				"effect": "destroy all pieces"
-			}
-		]
+		"effects":
+			[
+				"Deal 2 damage"
+			]
 	},
 
 	{
 		"name": "Taxes",
-		"effects": [
-			{
-				"effect": "draw 2 cards"
-			}
-		]
+		"effects":
+			[
+				"Draw 2 cards"
+			]
 	}
 ]

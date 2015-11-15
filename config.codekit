@@ -42,6 +42,61 @@
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
+	"\/img\/board.png": {
+		"fileType": 32768,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 970429,
+		"inputAbbreviatedPath": "\/img\/board.png",
+		"outputAbbreviatedPath": "\/img\/board.png",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/img\/card_back.png": {
+		"fileType": 32768,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 391786,
+		"inputAbbreviatedPath": "\/img\/card_back.png",
+		"outputAbbreviatedPath": "\/img\/card_back.png",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/img\/card_fireball.png": {
+		"fileType": 32768,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 918205,
+		"inputAbbreviatedPath": "\/img\/card_fireball.png",
+		"outputAbbreviatedPath": "\/img\/card_fireball.png",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/img\/card_floods.png": {
+		"fileType": 32768,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 1.05998e+06,
+		"inputAbbreviatedPath": "\/img\/card_floods.png",
+		"outputAbbreviatedPath": "\/img\/card_floods.png",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/img\/card_taxes.png": {
+		"fileType": 32768,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 1.21372e+06,
+		"inputAbbreviatedPath": "\/img\/card_taxes.png",
+		"outputAbbreviatedPath": "\/img\/card_taxes.png",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
 	"\/img\/piece_p1.png": {
 		"fileType": 32768,
 		"ignore": 0,
@@ -64,35 +119,13 @@
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
-	"\/img\/sigil-card-back.png": {
+	"\/img\/textBG.png": {
 		"fileType": 32768,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"initialSize": 391786,
-		"inputAbbreviatedPath": "\/img\/sigil-card-back.png",
-		"outputAbbreviatedPath": "\/img\/sigil-card-back.png",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"processed": 0
-		},
-	"\/img\/sigil-card.png": {
-		"fileType": 32768,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
-		"initialSize": 957396,
-		"inputAbbreviatedPath": "\/img\/sigil-card.png",
-		"outputAbbreviatedPath": "\/img\/sigil-card.png",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"processed": 0
-		},
-	"\/img\/sigil-card2.png": {
-		"fileType": 32768,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
-		"initialSize": 983266,
-		"inputAbbreviatedPath": "\/img\/sigil-card2.png",
-		"outputAbbreviatedPath": "\/img\/sigil-card2.png",
+		"initialSize": 16549,
+		"inputAbbreviatedPath": "\/img\/textBG.png",
+		"outputAbbreviatedPath": "\/img\/textBG.png",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0

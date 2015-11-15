@@ -3,6 +3,7 @@ $(function(){
     var startHandSize = 3,
         maxHandSize = 10;
 
+
     function Card() {
         this.cardName = '';
         this.cardEffects = [];
@@ -53,12 +54,19 @@ $(function(){
         this.createDeck = function(){
             // Replace the eval statement?
             var tempDeck = JSON.parse(eval("deck_p" + this.playerNo));
-            window.console.log(tempDeck);
 
             //Create cards
             for (var i = 0; i < tempDeck.length; i++){
                 var newCard = new Card();
                 newCard.cardName = tempDeck[i];
+                
+                // Find card description
+                for (var j = 0; j < cards.length; j++){
+                    if (cards[j].name === newCard.cardName){
+                        newCard.cardEffects = cards[j].effects;
+                    }
+                }
+
                 this.deck.push(newCard);
             }
 
@@ -69,13 +77,11 @@ $(function(){
             }
 
             this.deck = shuffle(this.deck);
-            window.console.log(this.deck);
         };
 
         this.drawCard = function(){
             if (this.deck.length > 0) {
                 this.deck[0].createCard(this.playerNo);
-                window.console.log(this.deck[0]);
                 this.hand.push(this.deck[0]);
                 this.deck.splice(0,1);
 
@@ -108,33 +114,46 @@ $(function(){
         // Changes current turn
         this.endTurn = function(){
             if (this.currentPlayer === 1) {
-                window.console.log('changin');
                 this.currentPlayer = -1;
                 $('.wrapper').removeClass('p1-turn');
                 $('.wrapper').addClass('p2-turn');
+
+                //hide hands
+                for (var i = 0; i < player1.hand.length; i++) {
+                    player1.hand[i].cardBody.addClass('hidden');
+                }
+                for (var i = 0; i < player2.hand.length; i++) {
+                    player2.hand[i].cardBody.removeClass('hidden');
+                }
             } else {
                 this.currentPlayer = 1;
                 $('.wrapper').removeClass('p2-turn');
                 $('.wrapper').addClass('p1-turn');
+
+                for (var i = 0; i < player2.hand.length; i++) {
+                    player2.hand[i].cardBody.addClass('hidden');
+                }
+                for (var i = 0; i < player1.hand.length; i++) {
+                    player1.hand[i].cardBody.removeClass('hidden');
+                }
             }
         };
 
         // Handle cell click
         this.updateCell = function(row,col){
-            window.console.log('Updating cell');
             if (this.results[row][col] !== 0){
                 window.alert("The cell is occupied!");
             } else{
                 this.results[row][col] = this.currentPlayer;
-                window.console.log('row: ' + row +', ' + col);
                 var $divgrid = $("div").find("[row="+row+"]"+"[col="+col+"]");
                 $divgrid.parent().addClass("opened flip");
-                window.console.log('Real player ' + this.currentPlayer);
+                
                 if (this.currentPlayer === 1){
                     $divgrid.parent().addClass("opened-p1");
                 } else {
                     $divgrid.parent().addClass("opened-p2");
                 }
+
                 this.endTurn();
             }
         };
@@ -163,6 +182,7 @@ $(function(){
             if (this.determineWinner() === undefined){
                 this.updateCell(row, col);
             }
+
             this.gameOver();
         };
 
