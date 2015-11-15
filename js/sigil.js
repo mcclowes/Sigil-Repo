@@ -1,11 +1,41 @@
 $(function(){
 
-    function Player() {
+    var startHandSize = 3,
+        maxHandSize = 10;
+
+    function Card() {
+        this.cardName = '';
+        this.cardEffects = [];
+        this.cardImage = '';
+        this.cardBody = '';
+
+        this.createCard = function(playerNo){
+            this.cardBody = jQuery('<div/>', {
+                class: 'card drawn ' + this.cardName.toLowerCase()
+            });
+
+            jQuery('<div/>', {
+                class: 'cardName',
+                text: this.cardName
+            }).appendTo(this.cardBody);
+
+            jQuery('<div/>', {
+                class: 'cardEffects',
+                text: this.cardEffects.join()
+            }).appendTo(this.cardBody);
+            
+            $('.p' + playerNo + '-hand:first').append(this.cardBody);
+        };
+    }
+
+    function Player(number) {
+        this.playerNo = number;
         this.deck = [];
         this.hand = [];
+        this.active = [];
         this.discard = [];
 
-        this.createDeck= function(player){
+        /*this.createDeck= function(player){
             $.getJSON( "js/deck_p" + player + ".json", function( data ) {
                 var items = [];
                 $.each( data, function( key, val ) {
@@ -18,6 +48,40 @@ $(function(){
                 }).appendTo( "body" );
             });
             this.deck = items;
+        };*/
+
+        this.createDeck = function(){
+            // Replace the eval statement?
+            var tempDeck = JSON.parse(eval("deck_p" + this.playerNo));
+            window.console.log(tempDeck);
+
+            //Create cards
+            for (var i = 0; i < tempDeck.length; i++){
+                var newCard = new Card();
+                newCard.cardName = tempDeck[i];
+                this.deck.push(newCard);
+            }
+
+            function shuffle(o){
+                for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+                
+                return o;
+            }
+
+            this.deck = shuffle(this.deck);
+            window.console.log(this.deck);
+        };
+
+        this.drawCard = function(){
+            if (this.deck.length > 0) {
+                this.deck[0].createCard(this.playerNo);
+                window.console.log(this.deck[0]);
+                this.hand.push(this.deck[0]);
+                this.deck.splice(0,1);
+
+                $('.hand').append();
+            }
+
         };
     }
 
@@ -163,10 +227,17 @@ $(function(){
     var b = new Board();
     b.initiateBoard();
 
-    var player1 = new Player();
-    var player2 = new Player();
-    player1.createDeck(1);
-    player2.createDeck(2);
+    var player1 = new Player(1);
+    var player2 = new Player(2);
+    player1.createDeck();
+    player2.createDeck();
+
+    for (var i = 0; i < startHandSize; i++) {
+        player1.drawCard();
+    }
+    for (var i = 0; i < startHandSize; i++) {
+        player2.drawCard();
+    }
 
     $(".p1-hand").sortable();
     $(".p2-hand").sortable();

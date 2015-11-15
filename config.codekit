@@ -31,6 +31,17 @@
 		"strictMath": 0,
 		"strictUnits": 0
 		},
+	"\/img\/4f6eb92033cdd72ec90ed09ac751b559.jpg": {
+		"fileType": 16384,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 68679,
+		"inputAbbreviatedPath": "\/img\/4f6eb92033cdd72ec90ed09ac751b559.jpg",
+		"outputAbbreviatedPath": "\/img\/4f6eb92033cdd72ec90ed09ac751b559.jpg",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
 	"\/img\/piece_p1.png": {
 		"fileType": 32768,
 		"ignore": 0,
@@ -109,7 +120,7 @@
 	"\/js\/deck_p1.json": {
 		"fileType": 524288,
 		"ignore": 1,
-		"ignoreWasSetByUser": 0,
+		"ignoreWasSetByUser": 1,
 		"inputAbbreviatedPath": "\/js\/deck_p1.json",
 		"orderOutput": 0,
 		"outputAbbreviatedPath": "\/js\/deck_p1-min.json",
@@ -120,7 +131,7 @@
 	"\/js\/deck_p2.json": {
 		"fileType": 524288,
 		"ignore": 1,
-		"ignoreWasSetByUser": 0,
+		"ignoreWasSetByUser": 1,
 		"inputAbbreviatedPath": "\/js\/deck_p2.json",
 		"orderOutput": 0,
 		"outputAbbreviatedPath": "\/js\/deck_p2-min.json",
