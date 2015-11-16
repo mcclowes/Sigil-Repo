@@ -3,12 +3,99 @@ $(function(){
     var startHandSize = 3,
         maxHandSize = 10;
 
+    // Array shuffle function
+    function shuffle(o){
+        for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+        
+        return o;
+    }
 
+    // Card object definition
     function Card() {
         this.cardName = '';
         this.cardEffects = [];
         this.cardImage = '';
         this.cardBody = '';
+
+        //Activates card's effects
+        this.playCard = function(targetCard, playerNo, board){
+            window.console.log($(this));
+
+            //Regex
+            var deal = new RegExp("deal", "i"),
+                destroy = new RegExp("destroy", "i"),
+                draw = new RegExp("draw", "i"),
+                one = new RegExp("a|1", "i"),
+                targetSelf = new RegExp("your", "i");
+                //= new RegExp("", "i"),
+
+            for (var i = 0; i < this.cardEffects.length; i++){
+                window.console.log(this.cardName + ' -> ' + this.cardEffects[i]);
+                var effect = this.cardEffects[i].split(' ');
+
+                window.console.log(effect);
+                if (effect[0] && effect[0].match(deal)){ // Dealing damage
+                    if (effect[1] && effect[1].match(one)){
+                        if (effect[4] && effect[4].match(targetSelf)){
+                            window.console.log("Target self");
+                        }
+
+                        window.console.log("Doing a DAMAGE effect!");
+
+                        $('.box.flipper.opened.flip').click(function() {
+                            window.console.log("WOOOOO!!!!!!!!!!!!!");
+                            
+                            //board.results[this.getAttribute('col')][this.getAttribute('row')] = 0;
+                            $('.box.flipper.opened.flip').unbind();
+                            //rebind piece placing on square
+                            $(this).removeClass('opened');
+                            $(this).removeClass('opened-p1');
+                            $(this).removeClass('opened-p2');
+                            var pieceCoords = $(this).children()[0];
+                            board.results[pieceCoords.getAttribute('col')][pieceCoords.getAttribute('row')] = 0;
+
+                            $('.box.flipper:not(.opened)').click(function(){
+                                var cols = $(this).children().attr("col");
+                                var rows = $(this).children().attr("row");
+                                board.playGame(rows,cols);
+                            });
+
+                            // Keep this for a method later
+                            //board.updateCell(pieceCoords.getAttribute('col'),pieceCoords.getAttribute('row'))
+
+
+                            //delete this.damage();
+                        });
+
+                        window.console.log($('.box.flipper.opened.flip'));
+
+                    } else { //else many
+
+                    }
+                } else if (effect[0] && effect[0].match(destroy)){ // Destroying piece
+                    if (effect[1] && effect[1].match(one)){
+
+                    } else { //else many
+
+                    }
+                } else if (effect[0] && effect[0].match(draw)){ // Drawing cards
+                    if (effect[1] && effect[1].match(one)){
+                        eval('player' + playerNo).drawCard();
+                    } else { //else many
+                        for (var i = 0; i < effect[1]; i++) {
+                            eval('player' + playerNo).drawCard();
+                        }
+                    }
+                    
+                } else {
+                    //do nothing
+                }
+            }
+            window.console.log('>> deleting ' + this);
+            window.console.log(this);
+            this.cardBody.remove();
+            delete this;
+        };
 
         this.createCard = function(playerNo){
             this.cardBody = jQuery('<div/>', {
@@ -24,17 +111,29 @@ $(function(){
                 class: 'cardEffects',
                 text: this.cardEffects.join()
             }).appendTo(this.cardBody);
+
+            var targetCard = this; //closure
+            $(this.cardBody[0]).click(function(){
+                targetCard.playCard(targetCard, playerNo, b);
+            });
             
             $('.p' + playerNo + '-hand:first').append(this.cardBody);
         };
     }
 
+    function Piece() {
+        this.row = -1,
+        this.col = -1,
+        this.shieled = false;
+    }
+
     function Player(number) {
-        this.playerNo = number;
-        this.deck = [];
-        this.hand = [];
-        this.active = [];
-        this.discard = [];
+        this.playerNo = number,
+        this.deck = [],
+        this.hand = [],
+        this.active = [],
+        this.discard = [],
+        this.pieces = [];
 
         /*this.createDeck= function(player){
             $.getJSON( "js/deck_p" + player + ".json", function( data ) {
@@ -68,12 +167,6 @@ $(function(){
                 }
 
                 this.deck.push(newCard);
-            }
-
-            function shuffle(o){
-                for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
-                
-                return o;
             }
 
             this.deck = shuffle(this.deck);
@@ -143,15 +236,24 @@ $(function(){
         this.updateCell = function(row,col){
             if (this.results[row][col] !== 0){
                 window.alert("The cell is occupied!");
-            } else{
+            } else {
+
+                var piece = new Piece();
+                piece.row = row;
+                piece.col = col;
+                piece.square = $("div").find("[row="+row+"]"+"[col="+col+"]");
+
                 this.results[row][col] = this.currentPlayer;
-                var $divgrid = $("div").find("[row="+row+"]"+"[col="+col+"]");
-                $divgrid.parent().addClass("opened flip");
+                piece.square.parent().addClass("opened flip");
+                $(piece.square.parent()).unbind();
                 
                 if (this.currentPlayer === 1){
-                    $divgrid.parent().addClass("opened-p1");
+                    piece.square.parent().addClass("opened-p1");
+                    $(player1.pieces).append(piece);
                 } else {
-                    $divgrid.parent().addClass("opened-p2");
+                    piece.square.parent().addClass("opened-p2");
+                    $(player2.pieces).append(piece);
+                    window.console.log(player2.pieces);
                 }
 
                 this.endTurn();
@@ -259,14 +361,25 @@ $(function(){
         player2.drawCard();
     }
 
-    $(".p1-hand").sortable();
-    $(".p2-hand").sortable();
+    //$(".p1-hand").sortable();
+    //$(".p2-hand").sortable();
 
     $('.box').click(function(){
         var cols = $(this).children().attr("col");
         var rows = $(this).children().attr("row");
         b.playGame(rows,cols);
     });
+
+    // for (var i = 0; i <  player1.hand.length; i++) {
+    //     //Give cards clickable function
+    //     (function (iCopy) { //remove function creation from loop?
+    //         var card = player1.hand[iCopy];
+    //         $(card.cardBody[0]).click(function(){
+    //             window.console.log(card);
+    //             card.playCard(b.currentPlayer, b);
+    //         });
+    //     }(i));
+    // }
 
     $('#button_wrapper').click(function(){
         location.reload();
