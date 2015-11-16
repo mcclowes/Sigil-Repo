@@ -53,6 +53,28 @@
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
+	"\/img\/card_armour_up.png": {
+		"fileType": 32768,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 922015,
+		"inputAbbreviatedPath": "\/img\/card_armour_up.png",
+		"outputAbbreviatedPath": "\/img\/card_armour_up.png",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/img\/card_assassinate.png": {
+		"fileType": 32768,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 764554,
+		"inputAbbreviatedPath": "\/img\/card_assassinate.png",
+		"outputAbbreviatedPath": "\/img\/card_assassinate.png",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
 	"\/img\/card_back.png": {
 		"fileType": 32768,
 		"ignore": 0,
@@ -60,6 +82,17 @@
 		"initialSize": 391786,
 		"inputAbbreviatedPath": "\/img\/card_back.png",
 		"outputAbbreviatedPath": "\/img\/card_back.png",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/img\/card_boulder.png": {
+		"fileType": 32768,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 693584,
+		"inputAbbreviatedPath": "\/img\/card_boulder.png",
+		"outputAbbreviatedPath": "\/img\/card_boulder.png",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
@@ -75,6 +108,17 @@
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
+	"\/img\/card_fireball.png": {
+		"fileType": 32768,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 918205,
+		"inputAbbreviatedPath": "\/img\/card_fireball.png",
+		"outputAbbreviatedPath": "\/img\/card_fireball.png",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
 	"\/img\/card_floods.png": {
 		"fileType": 32768,
 		"ignore": 0,
@@ -82,6 +126,83 @@
 		"initialSize": 1.05998e+06,
 		"inputAbbreviatedPath": "\/img\/card_floods.png",
 		"outputAbbreviatedPath": "\/img\/card_floods.png",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/img\/card_flurry.png": {
+		"fileType": 32768,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 0,
+		"inputAbbreviatedPath": "\/img\/card_flurry.png",
+		"outputAbbreviatedPath": "\/img\/card_flurry.png",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/img\/card_frost.png": {
+		"fileType": 32768,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 782385,
+		"inputAbbreviatedPath": "\/img\/card_frost.png",
+		"outputAbbreviatedPath": "\/img\/card_frost.png",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/img\/card_ice_blast.png": {
+		"fileType": 32768,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 1.0458e+06,
+		"inputAbbreviatedPath": "\/img\/card_ice_blast.png",
+		"outputAbbreviatedPath": "\/img\/card_ice_blast.png",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/img\/card_sabotage.png": {
+		"fileType": 32768,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 1.04035e+06,
+		"inputAbbreviatedPath": "\/img\/card_sabotage.png",
+		"outputAbbreviatedPath": "\/img\/card_sabotage.png",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/img\/card_sacrifice.png": {
+		"fileType": 32768,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 0,
+		"inputAbbreviatedPath": "\/img\/card_sacrifice.png",
+		"outputAbbreviatedPath": "\/img\/card_sacrifice.png",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/img\/card_steal.png": {
+		"fileType": 32768,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 778136,
+		"inputAbbreviatedPath": "\/img\/card_steal.png",
+		"outputAbbreviatedPath": "\/img\/card_steal.png",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/img\/card_summer.png": {
+		"fileType": 32768,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 678459,
+		"inputAbbreviatedPath": "\/img\/card_summer.png",
+		"outputAbbreviatedPath": "\/img\/card_summer.png",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0

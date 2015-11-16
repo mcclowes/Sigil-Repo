@@ -108,7 +108,7 @@ $(function(){
 
         this.createCard = function(playerNo){
             this.cardBody = jQuery('<div/>', {
-                class: 'card drawn ' + this.cardName.toLowerCase()
+                class: 'card drawn ' + this.cardName.toLowerCase().split(' ').join('_')
             });
 
             jQuery('<div/>', {
