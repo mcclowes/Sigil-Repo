@@ -1,20 +1,20 @@
-deck_p1 = '["Fireball", "Fireball", "Fireball", "Fireball", "Floods", "Floods", "Floods", "Floods", "Taxes", "Floods"]';
+deck_p1 = '["Fire Blast", "Fire Blast", "Fire Blast", "Ice Blast", "Ice Blast", "Frost", "Summer", "Summer",  "Sabotage", "Armour Up", "Armour Up", "Taxes", "Flurry", "Sacrifice", "Boulder",  "Floods", "Floods"]';
 /*
 deck_p1 = '{
 	"decks": [
-		"Fireball",
+		"Fire Blast",
 		"Floods",
-		"Fireball",
+		"Fire Blast",
 		"Floods",
-		"Fireball",
+		"Fire Blast",
 		"Floods",
-		"Fireball",
+		"Fire Blast",
 		"Floods",
 		"Taxes",
 		"Floods",
-		"Fireball",
+		"Fire Blast",
 		"Floods",
-		"Fireball",
+		"Fire Blast",
 		"Floods",
 		"Taxes",
 		"Floods"

@@ -1,10 +1,9 @@
 cards = [
 	{
-		"name": "Fireball",
+		"name": "Fire Blast",
 		"effects":
 			[
-				"Deal 1 damage",
-				"Draw a card"
+				"Deal 1 damage"
 			]
 	},
 
@@ -12,7 +11,76 @@ cards = [
 		"name": "Floods",
 		"effects":
 			[
-				"Deal 2 damage"
+				"Destroy all piecesa"
+			]
+	},
+
+	{
+		"name": "Armour Up",
+		"effects":
+			[
+				"Shield a piece",
+				"Draw a card"
+			]
+	},
+
+	{
+		"name": "Flurry",
+		"effects":
+			[
+				"Deal 2 damage to your pieces",
+				"Deal 2 damage to enemy pieces"
+			]
+	},
+
+	{
+		"name": "Sabotage",
+		"effects":
+			[
+				"Remove 5 shields"
+			]
+	},
+
+	{
+		"name": "Summer",
+		"effects":
+			[
+				"Thaw 1 square",
+				"Draw a card"
+			]
+	},
+
+	{
+		"name": "Ice Blast",
+		"effects":
+			[
+				"Freeze a square"
+			]
+	},
+
+	{
+		"name": "Sacrifice",
+		"effects":
+			[
+				"Destroy a piece of yours",
+				"Draw 3 cards"
+			]
+	},
+
+	{
+		"name": "Boulder",
+		"effects":
+			[
+				"Discard a card",
+				"Block a square"
+			]
+	},
+
+	{
+		"name": "Frost",
+		"effects":
+			[
+				"Freeze all squares"
 			]
 	},
 
@@ -20,7 +88,8 @@ cards = [
 		"name": "Taxes",
 		"effects":
 			[
-				"Draw 2 cards"
+				"Discard 2 cards",
+				"Shield 3 pieces"
 			]
 	}
 ]

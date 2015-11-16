@@ -64,13 +64,13 @@
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
-	"\/img\/card_fireball.png": {
+	"\/img\/card_fire_blast.png": {
 		"fileType": 32768,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"initialSize": 918205,
-		"inputAbbreviatedPath": "\/img\/card_fireball.png",
-		"outputAbbreviatedPath": "\/img\/card_fireball.png",
+		"inputAbbreviatedPath": "\/img\/card_fire_blast.png",
+		"outputAbbreviatedPath": "\/img\/card_fire_blast.png",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
