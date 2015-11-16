@@ -1,6 +1,6 @@
 $(function(){
 
-    var startHandSize = 3,
+    var startHandSize = 2,
         maxHandSize = 10;
 
     // Array shuffle function
@@ -21,11 +21,16 @@ $(function(){
         this.playCard = function(targetCard, playerNo, board){
             window.console.log($(this));
 
+            //Hide card - should probably delete it here too for card draw reasons
+            $(this.cardBody).fadeOut(300); //this is not gonna show unless a time delay is applied
+
             //Regex
             var deal = new RegExp("deal", "i"),
                 destroy = new RegExp("destroy", "i"),
                 draw = new RegExp("draw", "i"),
                 one = new RegExp("a|1", "i"),
+                every = new RegExp("all|every", "i"),
+                endTurn = new RegExp("end", "i"),
                 targetSelf = new RegExp("your", "i");
                 //= new RegExp("", "i"),
 
@@ -34,7 +39,10 @@ $(function(){
                 var effect = this.cardEffects[i].split(' ');
 
                 window.console.log(effect);
-                if (effect[0] && effect[0].match(deal)){ // Dealing damage
+
+                if (effect[0] && effect[0].match(endTurn)){
+                    board.endTurn();
+                } else if (effect[0] && effect[0].match(deal)){ // Dealing damage
                     if (effect[1] && effect[1].match(one)){
                         if (effect[4] && effect[4].match(targetSelf)){
                             window.console.log("Target self");
@@ -43,16 +51,20 @@ $(function(){
                         window.console.log("Doing a DAMAGE effect!");
 
                         $('.box.flipper.opened.flip').click(function() {
-                            window.console.log("WOOOOO!!!!!!!!!!!!!");
-                            
                             //board.results[this.getAttribute('col')][this.getAttribute('row')] = 0;
-                            $('.box.flipper.opened.flip').unbind();
+                            $('.box.flipper').unbind();
+
+                            var pieceCoords = $(this).children()[0];
+                            window.console.log(pieceCoords);
+                            window.console.log(board.results);
+                            //This doesn't work
+                            board.results[pieceCoords.getAttribute('col')][pieceCoords.getAttribute('row')] = 0;
+                            window.console.log(board.results);
+
                             //rebind piece placing on square
                             $(this).removeClass('opened');
                             $(this).removeClass('opened-p1');
                             $(this).removeClass('opened-p2');
-                            var pieceCoords = $(this).children()[0];
-                            board.results[pieceCoords.getAttribute('col')][pieceCoords.getAttribute('row')] = 0;
 
                             $('.box.flipper:not(.opened)').click(function(){
                                 var cols = $(this).children().attr("col");
@@ -62,14 +74,11 @@ $(function(){
 
                             // Keep this for a method later
                             //board.updateCell(pieceCoords.getAttribute('col'),pieceCoords.getAttribute('row'))
-
-
-                            //delete this.damage();
                         });
 
                         window.console.log($('.box.flipper.opened.flip'));
 
-                    } else { //else many
+                    } else { //else many or all <- check for both cases
 
                     }
                 } else if (effect[0] && effect[0].match(destroy)){ // Destroying piece
@@ -91,10 +100,10 @@ $(function(){
                     //do nothing
                 }
             }
-            window.console.log('>> deleting ' + this);
-            window.console.log(this);
+
             this.cardBody.remove();
             delete this;
+            
         };
 
         this.createCard = function(playerNo){
@@ -218,6 +227,7 @@ $(function(){
                 for (var i = 0; i < player2.hand.length; i++) {
                     player2.hand[i].cardBody.removeClass('hidden');
                 }
+                player2.drawCard();
             } else {
                 this.currentPlayer = 1;
                 $('.wrapper').removeClass('p2-turn');
@@ -229,6 +239,7 @@ $(function(){
                 for (var i = 0; i < player1.hand.length; i++) {
                     player1.hand[i].cardBody.removeClass('hidden');
                 }
+                player1.drawCard();
             }
         };
 
