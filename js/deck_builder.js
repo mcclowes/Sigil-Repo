@@ -3,8 +3,8 @@ $(function(){
     var deck = [];
 
     function SortByName(a, b){
-        var aName = a.cardName.toLowerCase();
-        var bName = b.cardName.toLowerCase(); 
+        var aName = a.toLowerCase();
+        var bName = b.toLowerCase(); 
         return ((aName < bName) ? -1 : ((aName > bName) ? 1 : 0));
     }
 
@@ -29,17 +29,32 @@ $(function(){
                 delete targetCardSelector;
             });
 
-            var cardCount = $.inArray(this, deck); //This doesn't work
-            if (cardCount != -1) { //already in deck
-                if ($(this.cardName, deck).length <= 4){
+            function cardMatch(card){
+                var x = 0;
+
+                for (var i = 0; i < deck.length; i++){
+                    window.console.log(deck[i] + ', ' + card.cardName);
+                    if (deck[i] === card.cardName) {
+                        x++;
+                    }
+                }
+
+                return x;
+            };
+
+            var cardCount = cardMatch(this);
+
+            window.console.log(cardCount);
+            if (cardCount != 0) { //already in deck
+                if (cardCount <= 4){
                     targetCardSelector.cardBody.remove();
                     delete targetCardSelector;
-                    ('.' + this.cardName)
+                    $('.' + this.cardName, deck).addClass(cardCount++);
                 } else { //too many already
                     window.alert("Card limit reached for this card");
                 }
             } else {
-                deck.push(this);
+                deck.push(this.cardName);
                 deck.sort(SortByName);
                 $('.cardList:first').append(this.cardBody);
             }
@@ -119,7 +134,7 @@ $(function(){
         var temp_deck = [];
 
         for (var i = 0; i < deck.length; i++) {
-            temp_deck.push(deck[i].cardName);
+            temp_deck.push(deck[i]);
         }
 
         window.console.log(temp_deck);

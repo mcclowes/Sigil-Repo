@@ -187,6 +187,12 @@ body h1 {
   background-color: white;
   color: black;
 }
+.cardSelector:hover {
+  transform: scale(1.1, 1.1);
+}
+.cardSelector.2::before {
+  content: '2';
+}
 .cardPool {
   width: 66%;
   float: left;
