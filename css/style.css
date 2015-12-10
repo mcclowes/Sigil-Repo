@@ -72,8 +72,12 @@ body h1 {
   background-image: url("../img/piece_p2.png");
   background-size: 100%;
 }
-.flip-container .frost {
-  background-image: url("../img/frost.png");
+.flip-container .frost1 {
+  background-image: url("../img/frost1.png");
+  background-size: 100%;
+}
+.flip-container .frost2 {
+  background-image: url("../img/frost2.png");
   background-size: 100%;
 }
 .wrapper.p1-turn .box:not(.opened):not(.frost):not(.block):hover {
@@ -172,4 +176,24 @@ body h1 {
 }
 .card.hidden div {
   visibility: hidden;
+}
+.card.drawn.spaced {
+  margin-right: 10px !important;
+}
+.cardSelector {
+  padding: 5px;
+  margin: 2px;
+  border-radius: 2px;
+  background-color: white;
+  color: black;
+}
+.cardPool {
+  width: 66%;
+  float: left;
+}
+.cardList {
+  width: 30%;
+  height: 100%;
+  float: left;
+  background-color: grey;
 }

@@ -1,16 +1,53 @@
 $(function(){
 
-    var startHandSize = 2,
-        maxHandSize = 10;
+    var deck = [];
 
-    // Array shuffle function
-    function shuffle(o){
-        for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
-        
-        return o;
+    function SortByName(a, b){
+        var aName = a.cardName.toLowerCase();
+        var bName = b.cardName.toLowerCase(); 
+        return ((aName < bName) ? -1 : ((aName > bName) ? 1 : 0));
     }
 
-    // Card object definition
+    function ChosenCard() {
+        this.cardName = '';
+
+        this.addCard = function(){
+            window.console.log(deck);
+
+            this.cardBody = jQuery('<div/>', {
+                class: 'cardSelector'
+            });
+
+            jQuery('<div/>', {
+                class: this.cardName,
+                text: this.cardName
+            }).appendTo(this.cardBody);
+
+            var targetCardSelector = this;
+            $(this.cardBody[0]).click(function(){
+                targetCardSelector.cardBody.remove();
+                delete targetCardSelector;
+            });
+
+            var cardCount = $.inArray(this, deck); //This doesn't work
+            if (cardCount != -1) { //already in deck
+                if ($(this.cardName, deck).length <= 4){
+                    targetCardSelector.cardBody.remove();
+                    delete targetCardSelector;
+                    ('.' + this.cardName)
+                } else { //too many already
+                    window.alert("Card limit reached for this card");
+                }
+            } else {
+                deck.push(this);
+                deck.sort(SortByName);
+                $('.cardList:first').append(this.cardBody);
+            }
+        }
+
+    };
+
+	// Card object definition
     function Card() {
         this.cardName = '';
         this.cardEffects = [];
@@ -18,153 +55,18 @@ $(function(){
         this.cardBody = '';
 
         //Activates card's effects
-        this.playCard = function(targetCard, playerNo, board){
+        this.chooseCard = function(targetCard){
             window.console.log($(this));
 
-            //Hide card - should probably delete it here too for card draw reasons
-            $(this.cardBody).fadeOut(300); //this is not gonna show unless a time delay is applied
-
-            //Regex
-            var deal = new RegExp("deal", "i"),
-                destroy = new RegExp("destroy", "i"),
-                draw = new RegExp("draw", "i"),
-                one = new RegExp("a|1", "i"),
-                every = new RegExp("all|every", "i"),
-                endTurn = new RegExp("end", "i"),
-                targetSelf = new RegExp("your", "i");
-                //= new RegExp("", "i"),
-
-            for (var i = 0; i < this.cardEffects.length; i++){
-                window.console.log(this.cardName + ' -> ' + this.cardEffects[i]);
-                var effect = this.cardEffects[i].split(' ');
-
-                window.console.log(effect);
-
-                if (effect[0] && effect[0].match(endTurn)){
-                    board.endTurn();
-                } else if (effect[0] && effect[0].match(deal)){ // Dealing damage
-                    if (effect[1] && effect[1].match(one)){
-                        if (effect[4] && effect[4].match(targetSelf)){
-                            window.console.log("Target self");
-                        }
-
-                        window.console.log("Doing a DAMAGE effect!");
-
-                        $('.box.flipper.opened.flip').click(function() {
-                            //board.results[this.getAttribute('col')][this.getAttribute('row')] = 0;
-                            $('.box.flipper').unbind();
-
-                            var pieceCoords = $(this).children()[0];
-                            window.console.log(pieceCoords);
-                            window.console.log(board.results);
-                            //This doesn't work
-                            board.results[pieceCoords.getAttribute('col')][pieceCoords.getAttribute('row')] = 0;
-                            window.console.log(board.results);
-
-                            //rebind piece placing on square
-                            $(this).removeClass('opened');
-                            $(this).removeClass('opened-p1');
-                            $(this).removeClass('opened-p2');
-
-                            $('.box.flipper:not(.opened)').click(function(){
-                                var cols = $(this).children().attr("col");
-                                var rows = $(this).children().attr("row");
-                                board.playGame(rows,cols);
-                            });
-
-                            // Keep this for a method later
-                            //board.updateCell(pieceCoords.getAttribute('col'),pieceCoords.getAttribute('row'))
-                        });
-
-                        window.console.log($('.box.flipper.opened.flip'));
-
-                    } else if (effect[1] && effect[1].match(all)){ // Damage all
-
-                    } else { //else damage many
-
-                    }
-                } else if (effect[0] && effect[0].match(destroy)){ // Destroying piece
-                    if (effect[1] && effect[1].match(one)){
-                        if (effect[4] && effect[4].match(targetSelf)){
-                            window.console.log("Target self");
-                        }
-
-                        window.console.log("Destroying one piece");
-
-                        $('.box.flipper.opened.flip').click(function() {
-                            //board.results[this.getAttribute('col')][this.getAttribute('row')] = 0;
-                            $('.box.flipper').unbind();
-
-                            var pieceCoords = $(this).children()[0];
-                            window.console.log(pieceCoords);
-                            window.console.log(board.results);
-                            //This doesn't work
-                            board.results[pieceCoords.getAttribute('col')][pieceCoords.getAttribute('row')] = 0;
-                            window.console.log(board.results);
-
-                            //rebind piece placing on square
-                            $(this).removeClass('opened');
-                            $(this).removeClass('opened-p1');
-                            $(this).removeClass('opened-p2');
-
-                            $('.box.flipper:not(.opened)').click(function(){
-                                var cols = $(this).children().attr("col");
-                                var rows = $(this).children().attr("row");
-                                board.playGame(rows,cols);
-                            });
-
-                            // Keep this for a method later
-                            //board.updateCell(pieceCoords.getAttribute('col'),pieceCoords.getAttribute('row'))
-                        });
-
-                        window.console.log($('.box.flipper.opened.flip'));
-
-                    } else if (effect[1] && effect[1].match(all)){ // Destroy all
-                        window.console.log('Destroy all pieces');
-                        var pieces = $('.box.flipper.opened')
-
-                        var pieceCoords = $(this).children()[0];
-                        window.console.log(pieceCoords);
-                        window.console.log(board.results);
-                        //This doesn't work
-                        board.results[pieceCoords.getAttribute('col')][pieceCoords.getAttribute('row')] = 0;
-                        window.console.log(board.results);
-
-                        //rebind piece placing on square
-                        $(this).removeClass('opened');
-                        $(this).removeClass('opened-p1');
-                        $(this).removeClass('opened-p2');
-
-                        $('.box.flipper:not(.opened)').click(function(){
-                            var cols = $(this).children().attr("col");
-                            var rows = $(this).children().attr("row");
-                            board.playGame(rows,cols);
-                        });
-                    } else { //else many
-
-                    }
-
-                } else if (effect[0] && effect[0].match(draw)){ // Drawing cards
-                    if (effect[1] && effect[1].match(one)){ // Resolves 'a'
-                        eval('player' + playerNo).drawCard();
-                    } else { //else many
-                        for (var i = 0; i < effect[1]; i++) {
-                            eval('player' + playerNo).drawCard();
-                        }
-                    }
-                } else {
-                    //do nothing
-                }
-            }
-
-            this.cardBody.remove();
-            delete this;
+            var newCard = new ChosenCard();
+            newCard.cardName = targetCard.cardName;
+            newCard.addCard();
             
         };
 
-        this.createCard = function(playerNo){
+        this.createCard = function(){
             this.cardBody = jQuery('<div/>', {
-                class: 'card drawn ' + this.cardName.toLowerCase().split(' ').join('_')
+                class: 'card drawn spaced ' + this.cardName.toLowerCase().split(' ').join('_')
             });
 
             jQuery('<div/>', {
@@ -179,272 +81,63 @@ $(function(){
 
             var targetCard = this; //closure
             $(this.cardBody[0]).click(function(){
-                targetCard.playCard(targetCard, playerNo, b);
+                targetCard.chooseCard(targetCard);
             });
             
-            $('.p' + playerNo + '-hand:first').append(this.cardBody);
+            $('.cardPool:first').append(this.cardBody);
         };
     }
 
-    function Piece() {
-        this.row = -1,
-        this.col = -1,
-        this.shieled = false; //remove?
+
+	function seedCards(){
+
+        for (var i = 0; i < cards.length; i++){
+            var newCard = new Card();
+            newCard.cardName = cards[i].name;
+            newCard.cardEffects = cards[i].effects;
+            window.console.log(i + ', ' + cards[i] + ', ' + cards[i].effects);
+            newCard.createCard();
+        }
+
+	}
+
+    function loadDeck(jsonArray){
+
+        for (var i = 0; i < jsonArray; i++){
+            var newCard = new ChosenCard();
+            newCard.cardName = jsonArray[i];
+            newCard.addCard();
+        }
+
     }
 
-    function Player(number) {
-        this.playerNo = number,
-        this.deck = [],
-        this.hand = [],
-        this.active = [],
-        this.discard = [],
-        this.pieces = [];
+    window.console.log("Starting");
 
-        /*this.createDeck= function(player){
-            $.getJSON( "js/deck_p" + player + ".json", function( data ) {
-                var items = [];
-                $.each( data, function( key, val ) {
-                items.push( "<li id='" + key + "'>" + val + "</li>" );
-                });
+    seedCards();
 
-                $( "<ul/>", {
-                "class": "card ",
-                html: items.join( "" )
-                }).appendTo( "body" );
-            });
-            this.deck = items;
-        };*/
+    $( "#save" ).click(function( event ) {
+        var temp_deck = [];
 
-        this.createDeck = function(){
-            // Replace the eval statement?
-            var tempDeck = JSON.parse(eval("deck_p" + this.playerNo));
+        for (var i = 0; i < deck.length; i++) {
+            temp_deck.push(deck[i].cardName);
+        }
 
-            //Create cards
-            for (var i = 0; i < tempDeck.length; i++){
-                var newCard = new Card();
-                newCard.cardName = tempDeck[i];
-                
-                // Find card description
-                for (var j = 0; j < cards.length; j++){
-                    if (cards[j].name === newCard.cardName){
-                        newCard.cardEffects = cards[j].effects;
-                    }
-                }
+        window.console.log(temp_deck);
 
-                this.deck.push(newCard);
-            }
-
-            this.deck = shuffle(this.deck);
-        };
-
-        this.drawCard = function(){
-            if (this.deck.length > 0) {
-                this.deck[0].createCard(this.playerNo);
-                this.hand.push(this.deck[0]);
-                this.deck.splice(0,1);
-
-                $('.hand').append();
-            }
-
-        };
-    }
-
-    function Board() {
-        this.results = [];
-        this.frost = [];
-        this.rock = [];
-        this.shields = [];
-        this.currentPlayer = 0;
-
-        // Create board
-        this.initiateBoard = function(){
-            for (var i = 0; i < 4; i++){
-                this.results[i] = [];
-                this.frost[i] = [];
-                this.rock[i] = [];
-                this.shields[i] = [];
-
-                for (var j = 0; j < 4; j++){
-                    var id = i * 4 + j + 1;
-
-                    this.results[i][j] = 0;
-                    this.frost[i][j] = 0;
-                    this.rock[i][j] = 0;
-                    this.shields[i][j] = 0;
-
-                    var $divgrid = $('div').find("[id="+id+"]");
-                    $divgrid.attr("col", j );
-                    $divgrid.attr("row", i );
-                }
-            }
-
-            this.currentPlayer = 1;
-        };
-
-        // Changes current turn
-        this.endTurn = function(){
-            if (this.currentPlayer === 1) {
-                this.currentPlayer = -1;
-                $('.wrapper').removeClass('p1-turn');
-                $('.wrapper').addClass('p2-turn');
-
-                //hide hands
-                for (var i = 0; i < player1.hand.length; i++) {
-                    player1.hand[i].cardBody.addClass('hidden');
-                }
-                for (var i = 0; i < player2.hand.length; i++) {
-                    player2.hand[i].cardBody.removeClass('hidden');
-                }
-                player2.drawCard();
-            } else {
-                this.currentPlayer = 1;
-                $('.wrapper').removeClass('p2-turn');
-                $('.wrapper').addClass('p1-turn');
-
-                for (var i = 0; i < player2.hand.length; i++) {
-                    player2.hand[i].cardBody.addClass('hidden');
-                }
-                for (var i = 0; i < player1.hand.length; i++) {
-                    player1.hand[i].cardBody.removeClass('hidden');
-                }
-                player1.drawCard();
-            }
-        };
-
-        // Handle cell click
-        this.updateCell = function(row,col){
-            if (this.results[row][col] !== 0){
-                window.alert("The cell is occupied!");
-            } else {
-
-                var piece = new Piece();
-                piece.row = row;
-                piece.col = col;
-                piece.square = $("div").find("[row="+row+"]"+"[col="+col+"]");
-
-                this.results[row][col] = this.currentPlayer;
-                piece.square.parent().addClass("opened flip");
-                $(piece.square.parent()).unbind();
-                
-                if (this.currentPlayer === 1){
-                    piece.square.parent().addClass("opened-p1");
-                    $(player1.pieces).append(piece);
-                } else {
-                    piece.square.parent().addClass("opened-p2");
-                    $(player2.pieces).append(piece);
-                    window.console.log(player2.pieces);
-                }
-
-                this.endTurn();
-            }
-        };
-
-        // Return correct piece markerclass
-        this.drawMark = function(player){
-            return player === 1 ? 'X' : 'O';
-        };
-
-        // Turn execution function
-        this.playGame = function(row,col){
-            if (this.determineWinner() === undefined){
-                this.updateCell(row, col);
-            }
-
-            this.gameOver();
-        };
-
-        // Checks for game over
-        this.gameOver = function(){
-            var that = this;
-            if (this.determineWinner() !== undefined){
-                setTimeout(function(){ 
-                    window.alert("The winner is " + that.drawMark(that.determineWinner())); 
-                }, 100);
-            }
-        };
-
-        //Calls all win condition checks
-        this.determineWinner = function(){
-            if (this.checkRows() !== undefined){
-                return this.checkRows();
-            }
-            if (this.checkCols() !== undefined){
-                return this.checkCols();
-            }
-            if (this.checkDiagonals() !== undefined){
-                return this.checkDiagonals();
-            }
-        };
-
-        this.checkRows = function(){
-            for (var i = 0; i < 4; i++){
-                var sum = this.results[i][0] + this.results[i][1] + this.results[i][2] + this.results[i][3];
-                if (sum === 4 || sum === -4){
-                    return this.results[i][0];
-                }
-            }
-        };
-
-        this.checkCols = function(){
-            for (var i = 0; i < 4; i++){
-                var sum = this.results[0][i] + this.results[1][i] + this.results[2][i] + this.results[3][i];
-                if (sum === 4 || sum === -4){
-                    return this.results[0][i];
-                }
-            }
-        };
-
-        this.checkDiagonals = function(){
-            // Right-wards diagonal
-            var sum = this.results[0][0] + this.results[1][1] + this.results[2][2] + this.results[3][3];
-            if (sum === 4 || sum === -4){
-                return this.results[1][1];
-            }
-            // Left-wards diagonal
-            sum = this.results[0][3] + this.results[1][2] + this.results[2][1] + this.results[3][0];
-            if (sum === 4 || sum === -4){
-                return this.results[1][1];
-            }
-        };
-    }
-
-    var b = new Board();
-    b.initiateBoard();
-
-    var player1 = new Player(1);
-    var player2 = new Player(2);
-    player1.createDeck();
-    player2.createDeck();
-
-    for (var i = 0; i < startHandSize; i++) {
-        player1.drawCard();
-    }
-    for (var i = 0; i < startHandSize; i++) {
-        player2.drawCard();
-    }
-
-    //$(".p1-hand").sortable();
-    //$(".p2-hand").sortable();
-
-    $('.box').click(function(){
-        var cols = $(this).children().attr("col");
-        var rows = $(this).children().attr("row");
-        b.playGame(rows,cols);
+        this.href = 'data:plain/text,' + JSON.stringify(temp_deck);
     });
 
-    // for (var i = 0; i <  player1.hand.length; i++) {
-    //     //Give cards clickable function
-    //     (function (iCopy) { //remove function creation from loop?
-    //         var card = player1.hand[iCopy];
-    //         $(card.cardBody[0]).click(function(){
-    //             window.console.log(card);
-    //             card.playCard(b.currentPlayer, b);
-    //         });
-    //     }(i));
-    // }
+    $( "#load" ).change(function( event ) {
+        var fr = new FileReader();
+        fr.onload = function(){
+            var dataURL = fr.result;
+            window.console.log(dataUrl);
+            var output = document.getElementById('output');
+            output.src = dataURL;
+        }
+        var jsonArray = fr.readAsText(this.files[0]);
 
-    $('#button_wrapper').click(function(){
-        location.reload();
+        loadDeck(jsonArray);
     });
 
 });

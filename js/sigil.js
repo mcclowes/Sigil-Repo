@@ -6,7 +6,6 @@ $(function(){
     // Array shuffle function
     function shuffle(o){
         for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
-        
         return o;
     }
 
@@ -24,7 +23,7 @@ $(function(){
             //Hide card - should probably delete it here too for card draw reasons
             $(this.cardBody).fadeOut(300); //this is not gonna show unless a time delay is applied on the next part
 
-            //Regex
+            //Regex expression definitions
             var deal = new RegExp("deal", "i"),
                 destroy = new RegExp("destroy", "i"),
                 draw = new RegExp("draw", "i"),
@@ -35,6 +34,37 @@ $(function(){
                 freeze = new RegExp("freeze", "i"),
                 block = new RegExp("block", "i");
                 //= new RegExp("", "i"),
+
+            function setupPlay() {
+                window.console.log("Restoring piece placements");
+                $('.box.flipper:not(.opened)').click(function(){
+                    var rows = this.getAttribute('x');
+                    var cols = this.getAttribute('y');
+                    board.playGame(rows,cols);
+                });
+            }
+
+            function dealDamage(){
+                window.console.log("Doing a DAMAGE effect!");
+                $('.box.flipper.opened.flip').click(function() {
+                    //board.results[this.getAttribute('col')][this.getAttribute('row')] = 0;
+                    $('.box.flipper').unbind();
+
+                    //This doesn't work
+                    board.results[this.getAttribute('x')][this.getAttribute('y')] = 0;
+                    window.console.log(board.results);
+
+                    //rebind piece placing on square
+                    $(this).removeClass('opened');
+                    $(this).removeClass('opened-p1');
+                    $(this).removeClass('opened-p2');
+
+                    setupPlay();
+                    // Keep this for a method later
+                    //board.updateCell(pieceCoords.getAttribute('col'),pieceCoords.getAttribute('row'))
+                });
+
+            }
 
             for (var i = 0; i < this.cardEffects.length; i++){
                 window.console.log(this.cardName + ' -> ' + this.cardEffects[i]);
@@ -50,35 +80,25 @@ $(function(){
                             window.console.log("Target self");
                         }
 
-                        window.console.log("Doing a DAMAGE effect!");
+                        if (window.Promise) {
+                            window.console.log('Promise found');
 
-                        $('.box.flipper.opened.flip').click(function() {
-                            //board.results[this.getAttribute('col')][this.getAttribute('row')] = 0;
-                            $('.box.flipper').unbind();
-
-                            //This doesn't work
-                            board.results[this.getAttribute('x')][this.getAttribute('y')] = 0;
-                            window.console.log(board.results);
-
-                            //rebind piece placing on square
-                            $(this).removeClass('opened');
-                            $(this).removeClass('opened-p1');
-                            $(this).removeClass('opened-p2');
-
-                            $('.box.flipper:not(.opened)').click(function(){
-                                var rows = this.getAttribute('x');
-                                var cols = this.getAttribute('y');
-                                board.playGame(rows,cols);
+                            var promise = new Promise(function(resolve, reject) {
+                                dealDamage();
                             });
 
-                            // Keep this for a method later
-                            //board.updateCell(pieceCoords.getAttribute('col'),pieceCoords.getAttribute('row'))
-                        });
+                            promise.then(setupPlay());
+                        } else {
+                            window.console.log('Promise not available');
+                        }
 
                     } else if (effect[1] && effect[1].match(every)){ // Damage all
-
+                        //damage everything
                     } else { //else damage many
-
+                        for (var i; i < effect[1]; i++){
+                            dealDamage();
+                            setupPlay();
+                        }
                     }
                 } else if (effect[0] && effect[0].match(destroy)){ // Destroying piece
                     if (effect[1] && effect[1].match(one)){
@@ -344,8 +364,8 @@ $(function(){
                         tiles.removeClass('frost');
                     }
 
-                    frost[i][j] = (frost[i][j] > 0) ? frost[i][j] - 1: 0;
-                    rock[i][j] = (rock[i][j] > 0) ? rock[i][j] - 1: 0;
+                    this.frost[i][j] = (this.frost[i][j] > 0) ? this.frost[i][j] - 1: 0;
+                    this.rock[i][j] = (this.rock[i][j] > 0) ? this.rock[i][j] - 1: 0;
                 }
             }
         };
