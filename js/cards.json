@@ -11,7 +11,8 @@ cards = [
 		"name": "Floods",
 		"effects":
 			[
-				"Destroy all pieces"
+				"Destroy all pieces",
+				"End your turn"
 			]
 	},
 

@@ -22,7 +22,7 @@ $(function(){
             window.console.log($(this));
 
             //Hide card - should probably delete it here too for card draw reasons
-            $(this.cardBody).fadeOut(300); //this is not gonna show unless a time delay is applied on the next part
+            $(this.cardBody).fadeOut(300); //this is not gonna show unless a time delay is applied
 
             //Regex
             var deal = new RegExp("deal", "i"),
@@ -31,9 +31,7 @@ $(function(){
                 one = new RegExp("a|1", "i"),
                 every = new RegExp("all|every", "i"),
                 endTurn = new RegExp("end", "i"),
-                targetSelf = new RegExp("your", "i"),
-                freeze = new RegExp("freeze", "i"),
-                block = new RegExp("block", "i");
+                targetSelf = new RegExp("your", "i");
                 //= new RegExp("", "i"),
 
             for (var i = 0; i < this.cardEffects.length; i++){
@@ -56,8 +54,11 @@ $(function(){
                             //board.results[this.getAttribute('col')][this.getAttribute('row')] = 0;
                             $('.box.flipper').unbind();
 
+                            var pieceCoords = $(this).children()[0];
+                            window.console.log(pieceCoords);
+                            window.console.log(board.results);
                             //This doesn't work
-                            board.results[this.getAttribute('x')][this.getAttribute('y')] = 0;
+                            board.results[pieceCoords.getAttribute('col')][pieceCoords.getAttribute('row')] = 0;
                             window.console.log(board.results);
 
                             //rebind piece placing on square
@@ -66,8 +67,8 @@ $(function(){
                             $(this).removeClass('opened-p2');
 
                             $('.box.flipper:not(.opened)').click(function(){
-                                var rows = this.getAttribute('x');
-                                var cols = this.getAttribute('y');
+                                var cols = $(this).children().attr("col");
+                                var rows = $(this).children().attr("row");
                                 board.playGame(rows,cols);
                             });
 
@@ -75,7 +76,9 @@ $(function(){
                             //board.updateCell(pieceCoords.getAttribute('col'),pieceCoords.getAttribute('row'))
                         });
 
-                    } else if (effect[1] && effect[1].match(every)){ // Damage all
+                        window.console.log($('.box.flipper.opened.flip'));
+
+                    } else if (effect[1] && effect[1].match(all)){ // Damage all
 
                     } else { //else damage many
 
@@ -116,72 +119,42 @@ $(function(){
 
                         window.console.log($('.box.flipper.opened.flip'));
 
-                    } else if (effect[1] && effect[1].match(every)){ // Destroy all
+                    } else if (effect[1] && effect[1].match(all)){ // Destroy all
                         window.console.log('Destroy all pieces');
-                        var pieces = $('.box.flipper.opened');
+                        var pieces = $('.box.flipper.opened')
 
-                        $(pieces).removeClass('opened');
-                        $(pieces).removeClass('opened-p1');
-                        $(pieces).removeClass('opened-p2');
+                        var pieceCoords = $(this).children()[0];
+                        window.console.log(pieceCoords);
+                        window.console.log(board.results);
+                        //This doesn't work
+                        board.results[pieceCoords.getAttribute('col')][pieceCoords.getAttribute('row')] = 0;
+                        window.console.log(board.results);
 
-                        for (var i = 0; i < pieces.length; i++){ 
-                            board.results[pieces[i].x][pieces[j].y] = 0;
-                        }
+                        //rebind piece placing on square
+                        $(this).removeClass('opened');
+                        $(this).removeClass('opened-p1');
+                        $(this).removeClass('opened-p2');
 
                         $('.box.flipper:not(.opened)').click(function(){
-                            var rows = this.getAttribute('x');
-                            var cols = this.getAttribute('y');
+                            var cols = $(this).children().attr("col");
+                            var rows = $(this).children().attr("row");
                             board.playGame(rows,cols);
                         });
                     } else { //else many
 
                     }
+
                 } else if (effect[0] && effect[0].match(draw)){ // Drawing cards
                     if (effect[1] && effect[1].match(one)){ // Resolves 'a'
-                        if (eval('player' + playerNo).hand.length < maxHandSize){
-                            eval('player' + playerNo).drawCard();
-                        }
+                        eval('player' + playerNo).drawCard();
                     } else { //else many
                         for (var i = 0; i < effect[1]; i++) {
-                            if (eval('player' + playerNo).hand.length < maxHandSize){
-                                eval('player' + playerNo).drawCard();
-                            }
+                            eval('player' + playerNo).drawCard();
                         }
-                    }
-                }  else if (effect[0] && effect[0].match(freeze)){ // Freeze
-                    if (effect[1] && effect[1].match(one)){ // Resolves 'a'
-                        window.console.log("Doing a frost... spoopy!");
-
-                        $('.box.flipper:not(.opened)').click(function() {
-                            if (board.results[pieceCoords.getAttribute('col')][pieceCoords.getAttribute('row')] == 0){
-                                $('.box.flipper').unbind();
-
-                                board.frost[pieceCoords.getAttribute('col')][pieceCoords.getAttribute('row')] = 2;
-                                $('.box.flipper').addClass('frost');
-
-                                $('.box.flipper:not(.opened)').click(function(){
-                                    var rows = this.getAttribute('x');
-                                    var cols = this.getAttribute('y');
-                                    board.playGame(rows,cols);
-                                });
-                            }
-                        });
-
-                    } if (effect[1] && effect[1].match(every)){ // Resolves 'all'
-                        for (var i = 0; i < 4; i++) {
-                            for (var j = 0; j < 4; j++) {
-                                if (board.results[i][j] === 0) {
-                                    board.frost[i][j] = 2;
-                                    $('.box.flipper').addClass('frost');
-                                }
-                            }
-                        }
-                    } else { //else many
-                        
                     }
                 } else {
                     //do nothing
-                } 
+                }
             }
 
             this.cardBody.remove();
@@ -298,6 +271,10 @@ $(function(){
                     this.frost[i][j] = 0;
                     this.rock[i][j] = 0;
                     this.shields[i][j] = 0;
+
+                    var $divgrid = $('div').find("[id="+id+"]");
+                    $divgrid.attr("col", j );
+                    $divgrid.attr("row", i );
                 }
             }
 
@@ -318,9 +295,7 @@ $(function(){
                 for (var i = 0; i < player2.hand.length; i++) {
                     player2.hand[i].cardBody.removeClass('hidden');
                 }
-
                 player2.drawCard();
-
             } else {
                 this.currentPlayer = 1;
                 $('.wrapper').removeClass('p2-turn');
@@ -332,44 +307,30 @@ $(function(){
                 for (var i = 0; i < player1.hand.length; i++) {
                     player1.hand[i].cardBody.removeClass('hidden');
                 }
-
                 player1.drawCard();
-            
-            }
-
-            var tiles = $('.box.flipper');
-            for (var i = 0; i < 4; i++){
-                for (var j = 0; j < 4; j++){
-                    if (tiles.x === i && tiles.y === j) {
-                        tiles.removeClass('frost');
-                    }
-
-                    frost[i][j] = (frost[i][j] > 0) ? frost[i][j] - 1: 0;
-                    rock[i][j] = (rock[i][j] > 0) ? rock[i][j] - 1: 0;
-                }
             }
         };
 
         // Handle cell click
         this.updateCell = function(row,col){
-            if (this.results[row][col] !== 0 || this.frost[row][col] >= 1 || this.rock[row][col] >= 1){
+            if (this.results[row][col] !== 0){
                 window.alert("The cell is occupied!");
             } else {
 
                 var piece = new Piece();
                 piece.row = row;
                 piece.col = col;
-                piece.square = $("div").find("[x="+row+"]"+"[y="+col+"]");
+                piece.square = $("div").find("[row="+row+"]"+"[col="+col+"]");
 
                 this.results[row][col] = this.currentPlayer;
-                piece.square.addClass("opened flip");
-                $(piece.square).unbind();
+                piece.square.parent().addClass("opened flip");
+                $(piece.square.parent()).unbind();
                 
                 if (this.currentPlayer === 1){
-                    piece.square.addClass("opened-p1");
+                    piece.square.parent().addClass("opened-p1");
                     $(player1.pieces).append(piece);
                 } else {
-                    piece.square.addClass("opened-p2");
+                    piece.square.parent().addClass("opened-p2");
                     $(player2.pieces).append(piece);
                     window.console.log(player2.pieces);
                 }
@@ -466,8 +427,8 @@ $(function(){
     //$(".p2-hand").sortable();
 
     $('.box').click(function(){
-        var rows = this.getAttribute('x');
-        var cols = this.getAttribute('y');
+        var cols = $(this).children().attr("col");
+        var rows = $(this).children().attr("row");
         b.playGame(rows,cols);
     });
 
@@ -482,12 +443,8 @@ $(function(){
     //     }(i));
     // }
 
-    $('#submitButton').click(function(){
+    $('#button_wrapper').click(function(){
         location.reload();
-    });
-
-    $('#endTurnButton').click(function(){
-        b.endTurn();
     });
 
 });

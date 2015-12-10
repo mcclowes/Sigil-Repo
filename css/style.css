@@ -1,6 +1,13 @@
 body {
   font-family: 'helvetica';
   background-color: #dedede;
+  background-image: url("../img/board_back.png");
+  background-size: 100%;
+}
+body h1 {
+  color: #fff;
+  -webkit-text-stroke-width: 2px;
+  -webkit-text-stroke-color: #000;
 }
 .wrapper {
   width: 562px;
@@ -9,6 +16,8 @@ body {
   overflow: hidden;
   background-image: url("../img/board.png");
   background-size: 100%;
+  border-radius: 5px;
+  box-shadow: 2px 2px 10px 10px rgba(0, 0, 0, 0.2);
 }
 #button_wrapper {
   margin-bottom: 10px;
@@ -63,13 +72,17 @@ body {
   background-image: url("../img/piece_p2.png");
   background-size: 100%;
 }
-.wrapper.p1-turn .box:not(.opened):hover {
+.flip-container .frost {
+  background-image: url("../img/frost.png");
+  background-size: 100%;
+}
+.wrapper.p1-turn .box:not(.opened):not(.frost):not(.block):hover {
   background-image: url("../img/piece_p1.png");
   background-size: 100%;
   opacity: 0.5;
   cursor: pointer;
 }
-.wrapper.p2-turn .box:not(.opened):hover {
+.wrapper.p2-turn .box:not(.opened):not(.frost):not(.block):hover {
   background-image: url("../img/piece_p2.png");
   background-size: 100%;
   opacity: 0.5;
