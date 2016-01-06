@@ -5,9 +5,9 @@ $(function(){
 
     var damagingA = 0,
         damagingE = 0,
-        destroyingE = 0,
-        damagingA = 0,
         damagingS = 0,
+        destroyingA = 0,
+        destroyingE = 0,
         destroyingS = 0,
         shielding = 0,
         freezing = 0,
@@ -32,19 +32,20 @@ $(function(){
         this.playCard = function(targetCard, playerNo, board){
             window.console.log($(this));
 
-            //Hide card - should probably delete it here too for card draw reasons
-            $(this.cardBody).fadeOut(300); //this is not gonna show unless a time delay is applied on the next part
+            // Hide card - should probably delete it here too for card draw reasons
+            $(this.cardBody).fadeOut(300); // this is not gonna show unless a time delay is applied on the next part
 
-            //Regex expression definitions
-            var deal = new RegExp("deal", "i"),
-                destroy = new RegExp("destroy", "i"),
-                draw = new RegExp("draw", "i"),
-                one = new RegExp("a|1", "i"),
-                every = new RegExp("all|every", "i"),
-                endTurn = new RegExp("end", "i"),
-                targetSelf = new RegExp("your", "i"),
-                freeze = new RegExp("freeze", "i"),
-                block = new RegExp("block", "i");
+            // Regex expression definitions
+            var deal = new RegExp("^deal$", "i"),       // ^x$ dictates explicit regex matching
+                destroy = new RegExp("^destroy$", "i"),
+                draw = new RegExp("^draw$", "i"),
+                one = new RegExp("^a$|^1$", "i"),
+                every = new RegExp("^all$|^every$", "i"),
+                endTurn = new RegExp("^end$", "i"),
+                targetSelf = new RegExp("^your$", "i"),
+                targetEnemy = new RegExp("^enemy$", "i"),
+                freeze = new RegExp("^freeze$", "i"),
+                block = new RegExp("^block$", "i");
                 //= new RegExp("", "i"),
 
             function setupPlay() { //..... Why is this here?
@@ -61,38 +62,46 @@ $(function(){
                 var effect = this.cardEffects[i].split(' ');
                 window.console.log(effect);
 
-                if (effect[0] && effect[0].match(endTurn)){
+                if (effect[0] && effect[0].match(endTurn)) {
                     board.endTurn();
-                } else if (effect[0] && effect[0].match(deal)){ // Dealing damage
+                } else if (effect[0] && effect[0].match(deal)) { // Dealing damage
                     if (effect[1] && effect[1].match(one)){ // Damage one
                         if (effect[4] && effect[4].match(targetSelf)){
                             window.console.log("Target self");
                             damagingS = 1;
-                        } else {
+                        } else if (effect[4] && effect[4].match(targetEnemy)){
+                            window.console.log("Target enemy");
                             damagingE = 1;
+                        } else {
+                            damagingA = 1;
                         }
-
-                    } else if (effect[1] && effect[1].match(every)){ // Damage all
-                        //damage everything
-                    } else { //else damage many
-                        if (effect[4] && effect[4].match(targetSelf)){
+                    } else if (effect[1] && effect[1].match(every)) { // Damage all
+                        // damage everything
+                    } else { // else damage many
+                        if (effect[4] && effect[4].match(targetSelf)) {
                             window.console.log("Target self");
                             damagingS = effect[1];
-                        } else {
+                        } else if (effect[4] && effect[4].match(targetEnemy)){
+                            window.console.log("Target enemy");
                             damagingE = effect[1];
+                        } else {
+                            damagingA = effect[1];
                         }
                     }
-                } else if (effect[0] && effect[0].match(destroy)){ // Destroying piece
+                } else if (effect[0] && effect[0].match(destroy)) { // Destroying piece
                     if (effect[1] && effect[1].match(one)){
-                        if (effect[4] && effect[4].match(targetSelf)){
+                        if (effect[4] && effect[4].match(targetSelf)) {
                             window.console.log("Target self");
+                        }  else if (effect[4] && effect[4].match(targetEnemy)){
+                            window.console.log("Target enemy");
+                            damagingE = 1;
                         } else {
                             window.console.log("Destroying one piece");
-                            destroyingE = 1;
+                            destroyingA = 1;
                         }
-                    } else if (effect[1] && effect[1].match(every)){ // Destroy all
+                    } else if (effect[1] && effect[1].match(every)) { // Destroy all
                         window.console.log('Destroy all pieces');
-                        var pieces = $('.box.flipper.opened');
+                        var pieces = $('.box.flipper');
 
                         $(pieces).removeClass('opened');
                         $(pieces).removeClass('opened-p1');
@@ -117,11 +126,14 @@ $(function(){
                         }
                     }
                 } else if (effect[0] && effect[0].match(freeze)){ // Freeze
-                    if (effect[1] && effect[1].match(one)){ // Resolves 'a'
-                        window.console.log("Doing a frost... spoopy!");
-                        freezing = 1;
+                    window.console.log(effect[1]);
+                    window.console.log(effect[1].match(one));
 
-                    } if (effect[1] && effect[1].match(every)){ // Resolves 'all'
+                    if (effect[1] && effect[1].match(one)){ // Resolves 'a'
+                        window.console.log("Doing a single frost... spoopy!");
+                        freezing = 1;
+                    } else if (effect[1] && effect[1].match(every)){ // Resolves 'all'
+                        window.console.log("Freezing all!");
                         for (var i = 0; i < 4; i++) {
                             for (var j = 0; j < 4; j++) {
                                 if (board.results[i][j] === 0) {
@@ -131,7 +143,7 @@ $(function(){
                             }
                         }
                     } else { //else many
-                        
+                        freezing = effect[1];
                     }
                 } else {
                     //do nothing
@@ -304,17 +316,18 @@ $(function(){
                 }
             }
 
-            var damagingE = 0,
-                destroyingE = 0,
-                damagingS = 0,
-                destroyingS = 0,
-                shielding = 0,
-                freezing = 0,
-                blocking = 0;
+            damagingE = 0;
+            destroyingE = 0;
+            damagingS = 0;
+            destroyingS = 0;
+            shielding = 0;
+            freezing = 0;
+            blocking = 0;
         };
 
         // Handle cell click
         this.updateCell = function(row,col){
+            window.console.log('clicked');
             if (this.results[row][col] !== 0 || this.frost[row][col] >= 1 || this.rock[row][col] >= 1){
                 window.console.log("The cell is occupied!");
                 if (this.results[row][col] !== 0) { // Piece
@@ -372,9 +385,15 @@ $(function(){
                 }
             } else { // Cell is empty
                 if (freezing > 0) {
-                    this.frost[row][col] === 2;
+                    board.frost[row][col] === 2;
+                    $('.box.flipper').addClass('frost2'); //does all
+
+                    freezing -= 1;
                 } else if (blocking > 0) {
-                    this.rock[row][col] === 3;
+                    board.rock[row][col] === 3;
+                    $('.box.flipper').addClass('frost2');
+
+                    blocking -= 1;
                 } else { //place piece
                     var piece = new Piece();
                     piece.row = row;
