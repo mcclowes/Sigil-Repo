@@ -12,9 +12,18 @@ body {
     }
 }
 
+#button_wrapper{
+    margin-bottom: 10px;
+    position: absolute;
+    right: 0;
+    top: 35%;
+    padding: 30px;
+}
+
 .wrapper {
-    width: 562px;
-    height:562px;
+    margin-top: 15%;
+    width: 400px;
+    height: 400px;
     font-size: 82px;
     overflow: hidden;
     background-image: url("../img/board.png");
@@ -23,15 +32,11 @@ body {
     box-shadow:2px 2px 10px 10px rgba(0, 0, 0, .2);
 }
 
-#button_wrapper{
-    margin-bottom: 10px;
-}
-
 /* flipping */
 .flip-container {
     perspective: 1000;
     transform-style: preserve-3d;
-    height: 140px;
+    height: 100px;
     display: table;
     -webkit-transform-style: preserve-3d;
     -webkit-perspective: 1000px;
