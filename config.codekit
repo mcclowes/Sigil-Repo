@@ -163,7 +163,7 @@
 		"fileType": 32768,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"initialSize": 0,
+		"initialSize": 831173,
 		"inputAbbreviatedPath": "\/img\/card_flurry.png",
 		"outputAbbreviatedPath": "\/img\/card_flurry.png",
 		"outputPathIsOutsideProject": 0,
@@ -207,7 +207,7 @@
 		"fileType": 32768,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"initialSize": 0,
+		"initialSize": 1.13327e+06,
 		"inputAbbreviatedPath": "\/img\/card_sacrifice.png",
 		"outputAbbreviatedPath": "\/img\/card_sacrifice.png",
 		"outputPathIsOutsideProject": 0,
@@ -338,17 +338,6 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/js\/cards.json": {
-		"fileType": 524288,
-		"ignore": 1,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/js\/cards.json",
-		"orderOutput": 0,
-		"outputAbbreviatedPath": "\/js\/cards-min.json",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 1
-		},
 	"\/js\/deck_builder.js": {
 		"fileType": 64,
 		"ignore": 0,
@@ -359,28 +348,6 @@
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
-		},
-	"\/js\/deck_p1.json": {
-		"fileType": 524288,
-		"ignore": 1,
-		"ignoreWasSetByUser": 1,
-		"inputAbbreviatedPath": "\/js\/deck_p1.json",
-		"orderOutput": 0,
-		"outputAbbreviatedPath": "\/js\/deck_p1-min.json",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 1
-		},
-	"\/js\/deck_p2.json": {
-		"fileType": 524288,
-		"ignore": 1,
-		"ignoreWasSetByUser": 1,
-		"inputAbbreviatedPath": "\/js\/deck_p2.json",
-		"orderOutput": 0,
-		"outputAbbreviatedPath": "\/js\/deck_p2-min.json",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 1
 		},
 	"\/js\/jquery-2.1.4.min.js": {
 		"fileType": 64,
@@ -697,6 +664,39 @@
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
+		},
+	"\/json\/cards.json": {
+		"fileType": 524288,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/json\/cards.json",
+		"orderOutput": 0,
+		"outputAbbreviatedPath": "\/json\/cards-min.json",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1
+		},
+	"\/json\/deck_p1.json": {
+		"fileType": 524288,
+		"ignore": 1,
+		"ignoreWasSetByUser": 1,
+		"inputAbbreviatedPath": "\/json\/deck_p1.json",
+		"orderOutput": 0,
+		"outputAbbreviatedPath": "\/json\/deck_p1-min.json",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1
+		},
+	"\/json\/deck_p2.json": {
+		"fileType": 524288,
+		"ignore": 1,
+		"ignoreWasSetByUser": 1,
+		"inputAbbreviatedPath": "\/json\/deck_p2.json",
+		"orderOutput": 0,
+		"outputAbbreviatedPath": "\/json\/deck_p2-min.json",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1
 		},
 	"\/README.md": {
 		"criticStyle": 0,

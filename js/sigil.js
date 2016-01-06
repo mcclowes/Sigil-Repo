@@ -3,6 +3,15 @@ $(function(){
     var startHandSize = 2,
         maxHandSize = 10;
 
+    var damagingE = 0,
+        destroyingE = 0,
+        damagingS = 0,
+        destroyingS = 0,
+        shielding = 0,
+        freezing = 0,
+        blocking = 0;
+
+
     // Array shuffle function
     function shuffle(o){
         for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
@@ -35,7 +44,7 @@ $(function(){
                 block = new RegExp("block", "i");
                 //= new RegExp("", "i"),
 
-            function setupPlay() {
+            function setupPlay() { //..... Why is this here?
                 window.console.log("Restoring piece placements");
                 $('.box.flipper:not(.opened)').click(function(){
                     var rows = this.getAttribute('x');
@@ -44,98 +53,40 @@ $(function(){
                 });
             }
 
-            function dealDamage(){
-                window.console.log("Doing a DAMAGE effect!");
-                $('.box.flipper.opened.flip').click(function() {
-                    //board.results[this.getAttribute('col')][this.getAttribute('row')] = 0;
-                    $('.box.flipper').unbind();
-
-                    //This doesn't work
-                    board.results[this.getAttribute('x')][this.getAttribute('y')] = 0;
-                    window.console.log(board.results);
-
-                    //rebind piece placing on square
-                    $(this).removeClass('opened');
-                    $(this).removeClass('opened-p1');
-                    $(this).removeClass('opened-p2');
-
-                    setupPlay();
-                    // Keep this for a method later
-                    //board.updateCell(pieceCoords.getAttribute('col'),pieceCoords.getAttribute('row'))
-                });
-
-            }
-
             for (var i = 0; i < this.cardEffects.length; i++){
                 window.console.log(this.cardName + ' -> ' + this.cardEffects[i]);
                 var effect = this.cardEffects[i].split(' ');
-
                 window.console.log(effect);
 
                 if (effect[0] && effect[0].match(endTurn)){
                     board.endTurn();
                 } else if (effect[0] && effect[0].match(deal)){ // Dealing damage
-                    if (effect[1] && effect[1].match(one)){
+                    if (effect[1] && effect[1].match(one)){ // Damage one
                         if (effect[4] && effect[4].match(targetSelf)){
                             window.console.log("Target self");
-                        }
-
-                        if (window.Promise) {
-                            window.console.log('Promise found');
-
-                            var promise = new Promise(function(resolve, reject) {
-                                dealDamage();
-                            });
-
-                            promise.then(setupPlay());
+                            damagingS = 1;
                         } else {
-                            window.console.log('Promise not available');
+                            damagingE = 1;
                         }
 
                     } else if (effect[1] && effect[1].match(every)){ // Damage all
                         //damage everything
                     } else { //else damage many
-                        for (var i; i < effect[1]; i++){
-                            dealDamage();
-                            setupPlay();
+                        if (effect[4] && effect[4].match(targetSelf)){
+                            window.console.log("Target self");
+                            damagingS = effect[1];
+                        } else {
+                            damagingE = effect[1];
                         }
                     }
                 } else if (effect[0] && effect[0].match(destroy)){ // Destroying piece
                     if (effect[1] && effect[1].match(one)){
                         if (effect[4] && effect[4].match(targetSelf)){
                             window.console.log("Target self");
+                        } else {
+                            window.console.log("Destroying one piece");
+                            destroyingE = 1;
                         }
-
-                        window.console.log("Destroying one piece");
-
-                        $('.box.flipper.opened.flip').click(function() {
-                            //board.results[this.getAttribute('col')][this.getAttribute('row')] = 0;
-                            $('.box.flipper').unbind();
-
-                            var pieceCoords = $(this).children()[0];
-                            window.console.log(pieceCoords);
-                            window.console.log(board.results);
-                            //This doesn't work
-                            board.results[pieceCoords.getAttribute('col')][pieceCoords.getAttribute('row')] = 0;
-                            window.console.log(board.results);
-
-                            //rebind piece placing on square
-                            $(this).removeClass('opened');
-                            $(this).removeClass('opened-p1');
-                            $(this).removeClass('opened-p2');
-
-                            $('.box.flipper:not(.opened)').click(function(){
-                                var cols = $(this).children().attr("col");
-                                var rows = $(this).children().attr("row");
-                                board.playGame(rows,cols);
-                            });
-
-                            // Keep this for a method later
-                            //board.updateCell(pieceCoords.getAttribute('col'),pieceCoords.getAttribute('row'))
-                        });
-
-                        window.console.log($('.box.flipper.opened.flip'));
-
                     } else if (effect[1] && effect[1].match(every)){ // Destroy all
                         window.console.log('Destroy all pieces');
                         var pieces = $('.box.flipper.opened');
@@ -147,12 +98,6 @@ $(function(){
                         for (var i = 0; i < pieces.length; i++){ 
                             board.results[pieces[i].x][pieces[j].y] = 0;
                         }
-
-                        $('.box.flipper:not(.opened)').click(function(){
-                            var rows = this.getAttribute('x');
-                            var cols = this.getAttribute('y');
-                            board.playGame(rows,cols);
-                        });
                     } else { //else many
 
                     }
@@ -168,24 +113,10 @@ $(function(){
                             }
                         }
                     }
-                }  else if (effect[0] && effect[0].match(freeze)){ // Freeze
+                } else if (effect[0] && effect[0].match(freeze)){ // Freeze
                     if (effect[1] && effect[1].match(one)){ // Resolves 'a'
                         window.console.log("Doing a frost... spoopy!");
-
-                        $('.box.flipper:not(.opened)').click(function() {
-                            if (board.results[pieceCoords.getAttribute('col')][pieceCoords.getAttribute('row')] == 0){
-                                $('.box.flipper').unbind();
-
-                                board.frost[pieceCoords.getAttribute('col')][pieceCoords.getAttribute('row')] = 2;
-                                $('.box.flipper').addClass('frost');
-
-                                $('.box.flipper:not(.opened)').click(function(){
-                                    var rows = this.getAttribute('x');
-                                    var cols = this.getAttribute('y');
-                                    board.playGame(rows,cols);
-                                });
-                            }
-                        });
+                        freezing = 1;
 
                     } if (effect[1] && effect[1].match(every)){ // Resolves 'all'
                         for (var i = 0; i < 4; i++) {
@@ -204,9 +135,10 @@ $(function(){
                 } 
             }
 
+            window.console.log("DaE: " + damagingE + ", DaS: " + damagingS + ", DeE: " + destroyingE + ", DeS: " + destroyingS + ", Sh: " + shielding + ", Fr: " + freezing+ ", Bl: " + blocking);
+
             this.cardBody.remove();
             delete this;
-            
         };
 
         this.createCard = function(playerNo){
@@ -236,7 +168,7 @@ $(function(){
     function Piece() {
         this.row = -1,
         this.col = -1,
-        this.shieled = false; //remove?
+        this.shielded = false; //remove?
     }
 
     function Player(number) {
@@ -374,27 +306,40 @@ $(function(){
         this.updateCell = function(row,col){
             if (this.results[row][col] !== 0 || this.frost[row][col] >= 1 || this.rock[row][col] >= 1){
                 window.alert("The cell is occupied!");
-            } else {
+                if (destroyingE > 0 || destroyingS > 0) { //Destroying
 
-                var piece = new Piece();
-                piece.row = row;
-                piece.col = col;
-                piece.square = $("div").find("[x="+row+"]"+"[y="+col+"]");
+                } else if (damagingE > 0 || damagingS > 0) { //Damaging
 
-                this.results[row][col] = this.currentPlayer;
-                piece.square.addClass("opened flip");
-                $(piece.square).unbind();
-                
-                if (this.currentPlayer === 1){
-                    piece.square.addClass("opened-p1");
-                    $(player1.pieces).append(piece);
-                } else {
-                    piece.square.addClass("opened-p2");
-                    $(player2.pieces).append(piece);
-                    window.console.log(player2.pieces);
+                } else if (shielding > 0) {
+
                 }
 
-                this.endTurn();
+            } else { // Cell is empty
+                if (freezing > 0) {
+                    this.frost[row][col] == 2;
+                } else if (blocking > 0) {
+                    this.rock[row][col] == 3;
+                } else { //place piece
+                    var piece = new Piece();
+                    piece.row = row;
+                    piece.col = col;
+                    piece.square = $("div").find("[x="+row+"]"+"[y="+col+"]");
+
+                    this.results[row][col] = this.currentPlayer;
+                    piece.square.addClass("opened flip");
+                    $(piece.square).unbind();
+                    
+                    if (this.currentPlayer === 1){
+                        piece.square.addClass("opened-p1");
+                        $(player1.pieces).append(piece);
+                    } else {
+                        piece.square.addClass("opened-p2");
+                        $(player2.pieces).append(piece);
+                        window.console.log(player2.pieces);
+                    }
+
+                    this.endTurn();
+                }
             }
         };
 
