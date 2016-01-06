@@ -1,1 +1,0 @@
-function shuffleCards(o){for(var t,n,r=o.length;r;t=Math.floor(Math.random()*r),n=o[--r],o[r]=o[t],o[t]=n);return o}$("#submitButton").click(function(){location.reload()});

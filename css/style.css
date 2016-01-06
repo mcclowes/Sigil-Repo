@@ -10,9 +10,8 @@ body h1 {
   -webkit-text-stroke-color: #000;
 }
 .wrapper {
-  margin-top: 50px;
-  width: 400px;
-  height: 400px;
+  width: 562px;
+  height: 562px;
   font-size: 82px;
   overflow: hidden;
   background-image: url("../img/board.png");
@@ -27,7 +26,7 @@ body h1 {
 .flip-container {
   perspective: 1000;
   transform-style: preserve-3d;
-  height: 100px;
+  height: 140px;
   display: table;
   -webkit-transform-style: preserve-3d;
   -webkit-perspective: 1000px;
