@@ -163,7 +163,7 @@
 		"fileType": 32768,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"initialSize": 831173,
+		"initialSize": 0,
 		"inputAbbreviatedPath": "\/img\/card_flurry.png",
 		"outputAbbreviatedPath": "\/img\/card_flurry.png",
 		"outputPathIsOutsideProject": 0,
@@ -207,7 +207,7 @@
 		"fileType": 32768,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"initialSize": 1.13327e+06,
+		"initialSize": 0,
 		"inputAbbreviatedPath": "\/img\/card_sacrifice.png",
 		"outputAbbreviatedPath": "\/img\/card_sacrifice.png",
 		"outputPathIsOutsideProject": 0,
@@ -300,7 +300,7 @@
 		"fileType": 32768,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"initialSize": 173861,
+		"initialSize": 40823,
 		"inputAbbreviatedPath": "\/img\/piece_p1.png",
 		"outputAbbreviatedPath": "\/img\/piece_p1.png",
 		"outputPathIsOutsideProject": 0,
@@ -311,7 +311,7 @@
 		"fileType": 32768,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"initialSize": 197404,
+		"initialSize": 71117,
 		"inputAbbreviatedPath": "\/img\/piece_p2.png",
 		"outputAbbreviatedPath": "\/img\/piece_p2.png",
 		"outputPathIsOutsideProject": 0,
@@ -338,27 +338,16 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/js\/board.js": {
-		"fileType": 64,
-		"ignore": 0,
+	"\/js\/cards.json": {
+		"fileType": 524288,
+		"ignore": 1,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/js\/board.js",
-		"outputAbbreviatedPath": "\/js\/min\/board-min.js",
+		"inputAbbreviatedPath": "\/js\/cards.json",
+		"orderOutput": 0,
+		"outputAbbreviatedPath": "\/js\/cards-min.json",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
-		"outputStyle": 1,
-		"syntaxCheckerStyle": 1
-		},
-	"\/js\/card.js": {
-		"fileType": 64,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/js\/card.js",
-		"outputAbbreviatedPath": "\/js\/min\/card-min.js",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 1,
-		"syntaxCheckerStyle": 1
+		"outputStyle": 1
 		},
 	"\/js\/deck_builder.js": {
 		"fileType": 64,
@@ -371,16 +360,27 @@
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
 		},
-	"\/js\/game.js": {
-		"fileType": 64,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/js\/game.js",
-		"outputAbbreviatedPath": "\/js\/min\/game-min.js",
+	"\/js\/deck_p1.json": {
+		"fileType": 524288,
+		"ignore": 1,
+		"ignoreWasSetByUser": 1,
+		"inputAbbreviatedPath": "\/js\/deck_p1.json",
+		"orderOutput": 0,
+		"outputAbbreviatedPath": "\/js\/deck_p1-min.json",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
-		"outputStyle": 1,
-		"syntaxCheckerStyle": 1
+		"outputStyle": 1
+		},
+	"\/js\/deck_p2.json": {
+		"fileType": 524288,
+		"ignore": 1,
+		"ignoreWasSetByUser": 1,
+		"inputAbbreviatedPath": "\/js\/deck_p2.json",
+		"orderOutput": 0,
+		"outputAbbreviatedPath": "\/js\/deck_p2-min.json",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1
 		},
 	"\/js\/jquery-2.1.4.min.js": {
 		"fileType": 64,
@@ -654,56 +654,12 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/js\/min\/board-min.js": {
-		"fileType": 64,
-		"ignore": 1,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/js\/min\/board-min.js",
-		"outputAbbreviatedPath": "\/js\/min\/min\/board-min-min.js",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 1,
-		"syntaxCheckerStyle": 1
-		},
-	"\/js\/min\/card-min.js": {
-		"fileType": 64,
-		"ignore": 1,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/js\/min\/card-min.js",
-		"outputAbbreviatedPath": "\/js\/min\/min\/card-min-min.js",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 1,
-		"syntaxCheckerStyle": 1
-		},
 	"\/js\/min\/deck_builder-min.js": {
 		"fileType": 64,
 		"ignore": 1,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/js\/min\/deck_builder-min.js",
 		"outputAbbreviatedPath": "\/js\/min\/min\/deck_builder-min-min.js",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 1,
-		"syntaxCheckerStyle": 1
-		},
-	"\/js\/min\/game-min.js": {
-		"fileType": 64,
-		"ignore": 1,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/js\/min\/game-min.js",
-		"outputAbbreviatedPath": "\/js\/min\/min\/game-min-min.js",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 1,
-		"syntaxCheckerStyle": 1
-		},
-	"\/js\/min\/player-min.js": {
-		"fileType": 64,
-		"ignore": 1,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/js\/min\/player-min.js",
-		"outputAbbreviatedPath": "\/js\/min\/min\/player-min-min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
@@ -720,20 +676,9 @@
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
 		},
-	"\/js\/min\/sigil_tools-min.js": {
-		"fileType": 64,
-		"ignore": 1,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/js\/min\/sigil_tools-min.js",
-		"outputAbbreviatedPath": "\/js\/min\/min\/sigil_tools-min-min.js",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 1,
-		"syntaxCheckerStyle": 1
-		},
 	"\/js\/min\/tictactoe-min.js": {
 		"fileType": 64,
-		"ignore": 1,
+		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/js\/min\/tictactoe-min.js",
 		"outputAbbreviatedPath": "\/js\/min\/min\/tictactoe-min-min.js",
@@ -742,60 +687,16 @@
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
 		},
-	"\/js\/player.js": {
+	"\/js\/sigil.js": {
 		"fileType": 64,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/js\/player.js",
-		"outputAbbreviatedPath": "\/js\/min\/player-min.js",
+		"inputAbbreviatedPath": "\/js\/sigil.js",
+		"outputAbbreviatedPath": "\/js\/min\/sigil-min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
-		},
-	"\/js\/sigil_tools.js": {
-		"fileType": 64,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/js\/sigil_tools.js",
-		"outputAbbreviatedPath": "\/js\/min\/sigil_tools-min.js",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 1,
-		"syntaxCheckerStyle": 1
-		},
-	"\/json\/cards.json": {
-		"fileType": 524288,
-		"ignore": 1,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/json\/cards.json",
-		"orderOutput": 0,
-		"outputAbbreviatedPath": "\/json\/cards-min.json",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 1
-		},
-	"\/json\/deck_p1.json": {
-		"fileType": 524288,
-		"ignore": 1,
-		"ignoreWasSetByUser": 1,
-		"inputAbbreviatedPath": "\/json\/deck_p1.json",
-		"orderOutput": 0,
-		"outputAbbreviatedPath": "\/json\/deck_p1-min.json",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 1
-		},
-	"\/json\/deck_p2.json": {
-		"fileType": 524288,
-		"ignore": 1,
-		"ignoreWasSetByUser": 1,
-		"inputAbbreviatedPath": "\/json\/deck_p2.json",
-		"orderOutput": 0,
-		"outputAbbreviatedPath": "\/json\/deck_p2-min.json",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 1
 		},
 	"\/README.md": {
 		"criticStyle": 0,
