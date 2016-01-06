@@ -1,4 +1,3 @@
-$(function(){
 
 // Array shuffle function
 function shuffleCards(o){

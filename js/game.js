@@ -30,5 +30,3 @@ function Game() {
 }
 
 var newGame = new Game();
-
-});
