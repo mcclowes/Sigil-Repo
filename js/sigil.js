@@ -3,12 +3,15 @@ $(function(){
     var startHandSize = 2,
         maxHandSize = 10;
 
-    var damagingE = 0,
+    var damagingA = 0,
+        damagingE = 0,
         destroyingE = 0,
+        damagingA = 0,
         damagingS = 0,
         destroyingS = 0,
         shielding = 0,
         freezing = 0,
+        thawing = 0,
         blocking = 0;
 
 
@@ -300,25 +303,78 @@ $(function(){
                     this.rock[i][j] = (this.rock[i][j] > 0) ? this.rock[i][j] - 1: 0;
                 }
             }
+
+            var damagingE = 0,
+                destroyingE = 0,
+                damagingS = 0,
+                destroyingS = 0,
+                shielding = 0,
+                freezing = 0,
+                blocking = 0;
         };
 
         // Handle cell click
         this.updateCell = function(row,col){
             if (this.results[row][col] !== 0 || this.frost[row][col] >= 1 || this.rock[row][col] >= 1){
-                window.alert("The cell is occupied!");
-                if (destroyingE > 0 || destroyingS > 0) { //Destroying
+                window.console.log("The cell is occupied!");
+                if (this.results[row][col] !== 0) { // Piece
+                    if (destroyingE > 0) {
+                        if (this.results[row][col] !== this.currentPlayer) {
+                            board.results[this.getAttribute('x')][this.getAttribute('y')] = 0;
+                            window.console.log(board.results);
+                            //rebind piece placing on square
+                            $(this).removeClass('opened');
+                            $(this).removeClass('opened-p1');
+                            $(this).removeClass('opened-p2');
 
-                } else if (damagingE > 0 || damagingS > 0) { //Damaging
+                            destroyingE -= 1;
+                        }
+                    } else if (destroyingS > 0) { //Destroying
+                        if (this.results[row][col] === this.currentPlayer) {
+                            board.results[this.getAttribute('x')][this.getAttribute('y')] = 0;
+                            window.console.log(board.results);
+                            //rebind piece placing on square
+                            $(this).removeClass('opened');
+                            $(this).removeClass('opened-p1');
+                            $(this).removeClass('opened-p2');
 
-                } else if (shielding > 0) {
+                            destroyingS -= 1;
+                        }
+                    } else if (damagingE > 0) {
+                        if (this.results[row][col] !== this.currentPlayer) {
+                            board.results[this.getAttribute('x')][this.getAttribute('y')] = 0;
+                            window.console.log(board.results);
+                            //rebind piece placing on square
+                            $(this).removeClass('opened');
+                            $(this).removeClass('opened-p1');
+                            $(this).removeClass('opened-p2');
+
+                            damagingE -= 1;
+                        }
+                    } else if (damagingS > 0) { //Damaging
+                        if (this.results[row][col] !== this.currentPlayer) {
+                            board.results[this.getAttribute('x')][this.getAttribute('y')] = 0;
+                            window.console.log(board.results);
+                            //rebind piece placing on square
+                            $(this).removeClass('opened');
+                            $(this).removeClass('opened-p1');
+                            $(this).removeClass('opened-p2');
+
+                            damagingS -= 1;
+                        }
+                    } else if (shielding > 0) {
+                        shielding -= 1;
+                    }
+                } else if (this.frost[row][col] >= 1) { 
+
+                } else if (this.rock[row][col] >= 1) {
 
                 }
-
             } else { // Cell is empty
                 if (freezing > 0) {
-                    this.frost[row][col] == 2;
+                    this.frost[row][col] === 2;
                 } else if (blocking > 0) {
-                    this.rock[row][col] == 3;
+                    this.rock[row][col] === 3;
                 } else { //place piece
                     var piece = new Piece();
                     piece.row = row;
@@ -335,7 +391,6 @@ $(function(){
                     } else {
                         piece.square.addClass("opened-p2");
                         $(player2.pieces).append(piece);
-                        window.console.log(player2.pieces);
                     }
 
                     this.endTurn();
