@@ -75,8 +75,16 @@ body h1 {
   background-image: url("../img/piece_p1.png");
   background-size: 100%;
 }
+.flip-container .opened-p1.flip.shielded {
+  background-image: url("../img/piece_p1_shielded.png");
+  background-size: 100%;
+}
 .flip-container .opened-p2.flip {
   background-image: url("../img/piece_p2.png");
+  background-size: 100%;
+}
+.flip-container .opened-p2.flip.shielded {
+  background-image: url("../img/piece_p2_shielded.png");
   background-size: 100%;
 }
 .flip-container .frost1 {
@@ -184,6 +192,12 @@ body h1 {
 .card.hidden div {
   visibility: hidden;
 }
+.debug_box {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  text-align: left;
+}
 .card.drawn.spaced {
   margin-right: 10px !important;
 }
@@ -209,4 +223,13 @@ body h1 {
   height: 100%;
   float: left;
   background-color: grey;
+}
+html {
+  cursor: url(http://www.rw-designer.com/cursor-extern.php?id=76012), auto;
+}
+.card {
+  cursor: url(http://www.rw-designer.com/cursor-extern.php?id=76022), pointer;
+}
+button {
+  cursor: url(http://www.rw-designer.com/cursor-extern.php?id=76022), pointer;
 }

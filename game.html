@@ -12,6 +12,8 @@
         <script src="js/jquery-ui-1.11.4/jquery-ui.min.js"></script>
         <script src="js/sigil.js"></script>
 
+        <link rel="shortcut icon" href="img/favicon.png" type="image/x-icon" />
+
         <script type="text/javascript" src="json/cards.json"></script>
         <script type="text/javascript" src="json/deck_p1.json"></script>
         <script type="text/javascript" src="json/deck_p2.json"></script>
@@ -29,6 +31,37 @@
                 <button type="submit" id="submitButton">New Game</button>
                 <a href="./index.html"><button type="menu">Quit</button></a>
             </div>
+
+            <div class="debug_box">
+                <div class="variable_box">
+                    <br>
+                    cards_to_play = <span id="cards_to_play"></span><br>
+                    damagingA = <span id="damagingA"></span><br>
+                    damagingE = <span id="damagingE"></span><br>
+                    damagingS = <span id="damagingS"></span><br>
+                    destroyingA = <span id="destroyingA"></span><br>
+                    destroyingE = <span id="destroyingE"></span><br>
+                    destroyingS = <span id="destroyingS"></span><br>
+                    discarding = <span id="discarding"></span><br>
+                    shielding = <span id="shielding"></span><br>
+                    deshielding = <span id="deshielding"></span><br>
+                    freezing = <span id="freezing"></span><br>
+                    thawing = <span id="thawing"></span><br>
+                    blocking = <span id="blocking"></span><br>
+                </div>
+                <div class="grid_box">
+                    ----------------<br>
+                    |&#9;<span id="grid_box_0_0"></span>&#9;|&#9;<span id="grid_box_0_1"></span>&#9;|&#9;<span id="grid_box_0_2"></span>&#9;|&#9;<span id="grid_box_0_3"></span>&#9;|<br>
+                    ----------------<br>
+                    |&#9;<span id="grid_box_1_0"></span>&#9;|&#9;<span id="grid_box_1_1"></span>&#9;|&#9;<span id="grid_box_1_2"></span>&#9;|&#9;<span id="grid_box_1_3"></span>&#9;|<br>
+                    ----------------<br>
+                    |&#9;<span id="grid_box_2_0"></span>&#9;|&#9;<span id="grid_box_2_1"></span>&#9;|&#9;<span id="grid_box_2_2"></span>&#9;|&#9;<span id="grid_box_2_3"></span>&#9;|<br>
+                    ----------------<br>
+                    |&#9;<span id="grid_box_3_0"></span>&#9;|&#9;<span id="grid_box_3_1"></span>&#9;|&#9;<span id="grid_box_3_2"></span>&#9;|&#9;<span id="grid_box_3_3"></span>&#9;|<br>
+                    -----------------
+                </div>
+            </div>
+
             <div class="wrapper p1-turn">
                 <div class="flip-container">
                     <div class="box flipper" x="0" y="0"></div>

@@ -3,17 +3,46 @@ $(function(){
     var startHandSize = 2,
         maxHandSize = 10;
 
-    var damagingA = 0,
+    var cards_to_play = 1.
+        damagingA = 0,
         damagingE = 0,
         damagingS = 0,
         destroyingA = 0,
         destroyingE = 0,
         destroyingS = 0,
+        discarding = 0,
         shielding = 0,
+        deshielding = 0,
         freezing = 0,
         thawing = 0,
         blocking = 0;
 
+    var global_board;
+
+    function update_variable_display(){
+        //Update variables
+        $('#cards_to_play').text(cards_to_play);
+        $('#damagingA').text(damagingA);
+        $('#damagingE').text(damagingE);
+        $('#damagingS').text(damagingS);
+        $('#destroyingA').text(destroyingA);
+        $('#destroyingE').text(destroyingE);
+        $('#destroyingS').text(destroyingS);
+        $('#discarding').text(discarding);
+        $('#shielding').text(shielding);
+        $('#deshielding').text(deshielding);
+        $('#freezing').text(freezing);
+        $('#thawing').text(thawing);
+        $('#blocking').text(blocking);
+    }
+
+    function update_grid_display(){
+        for (var i = 0; i < 4; i++) {
+            for (var j = 0; j < 4; j++) {
+                $('#grid_box_' + i + '_' + j).text(global_board.results[i][j]);
+            }
+        }
+    }
 
     // Array shuffle function
     function shuffle(o){
@@ -32,128 +61,204 @@ $(function(){
         this.playCard = function(targetCard, playerNo, board){
             window.console.log($(this));
 
-            // Hide card - should probably delete it here too for card draw reasons
-            $(this.cardBody).fadeOut(300); // this is not gonna show unless a time delay is applied on the next part
+            if (cards_to_play > 0) {
+                // Hide card - should probably delete it here too for card draw reasons
+                $(this.cardBody).fadeOut(300); // this is not gonna show unless a time delay is applied on the next part
 
-            // Regex expression definitions
-            var deal = new RegExp("^deal$", "i"),       // ^x$ dictates explicit regex matching
-                destroy = new RegExp("^destroy$", "i"),
-                draw = new RegExp("^draw$", "i"),
-                one = new RegExp("^a$|^1$", "i"),
-                every = new RegExp("^all$|^every$", "i"),
-                endTurn = new RegExp("^end$", "i"),
-                targetSelf = new RegExp("^your$", "i"),
-                targetEnemy = new RegExp("^enemy$", "i"),
-                freeze = new RegExp("^freeze$", "i"),
-                block = new RegExp("^block$", "i");
-                //= new RegExp("", "i"),
+                // Regex expression definitions
+                var deal = new RegExp("^deal$", "i"),       // ^x$ dictates explicit regex matching
+                    destroy = new RegExp("^destroy$|^remove$", "i"),
+                    draw = new RegExp("^draw$", "i"),
+                    one = new RegExp("^a$|^1$", "i"),
+                    every = new RegExp("^all$|^every$", "i"),
+                    endTurn = new RegExp("^end$", "i"),
+                    targetSelf = new RegExp("^your$", "i"),
+                    targetEnemy = new RegExp("^enemy$", "i"),
+                    freeze = new RegExp("^freeze$", "i"),
+                    thaw = new RegExp("^thaw$", "i"),
+                    shield = new RegExp("^shield$|^shields$", "i"),
+                    block = new RegExp("^block$", "i");
+                    //= new RegExp("", "i"),
 
-            function setupPlay() { //..... Why is this here?
-                window.console.log("Restoring piece placements");
-                $('.box.flipper:not(.opened)').click(function(){
-                    var rows = this.getAttribute('x');
-                    var cols = this.getAttribute('y');
-                    board.playGame(rows,cols);
-                });
-            }
+               /* function setupPlay() { //..... Why is this here?
+                    window.console.log("Restoring piece placements");
+                    $('.box.flipper:not(.opened)').click(function(){
+                        var rows = this.getAttribute('x');
+                        var cols = this.getAttribute('y');
+                        board.playGame(rows,cols);
+                    });
+                }*/
 
-            for (var i = 0; i < this.cardEffects.length; i++){
-                window.console.log(this.cardName + ' -> ' + this.cardEffects[i]);
-                var effect = this.cardEffects[i].split(' ');
-                window.console.log(effect);
+                for (var i = 0; i < this.cardEffects.length; i++){
+                    window.console.log(this.cardName + ' -> ' + this.cardEffects[i]);
+                    var effect = this.cardEffects[i].split(' ');
+                    window.console.log(effect);
 
-                if (effect[0] && effect[0].match(endTurn)) {
-                    board.endTurn();
-                } else if (effect[0] && effect[0].match(deal)) { // Dealing damage
-                    if (effect[1] && effect[1].match(one)){ // Damage one
-                        if (effect[4] && effect[4].match(targetSelf)){
-                            window.console.log("Target self");
-                            damagingS = 1;
-                        } else if (effect[4] && effect[4].match(targetEnemy)){
-                            window.console.log("Target enemy");
-                            damagingE = 1;
-                        } else {
-                            damagingA = 1;
-                        }
-                    } else if (effect[1] && effect[1].match(every)) { // Damage all
-                        // damage everything
-                    } else { // else damage many
-                        if (effect[4] && effect[4].match(targetSelf)) {
-                            window.console.log("Target self");
-                            damagingS = effect[1];
-                        } else if (effect[4] && effect[4].match(targetEnemy)){
-                            window.console.log("Target enemy");
-                            damagingE = effect[1];
-                        } else {
-                            damagingA = effect[1];
-                        }
-                    }
-                } else if (effect[0] && effect[0].match(destroy)) { // Destroying piece
-                    if (effect[1] && effect[1].match(one)){
-                        if (effect[4] && effect[4].match(targetSelf)) {
-                            window.console.log("Target self");
-                        }  else if (effect[4] && effect[4].match(targetEnemy)){
-                            window.console.log("Target enemy");
-                            damagingE = 1;
-                        } else {
-                            window.console.log("Destroying one piece");
-                            destroyingA = 1;
-                        }
-                    } else if (effect[1] && effect[1].match(every)) { // Destroy all
-                        window.console.log('Destroy all pieces');
-                        var pieces = $('.box.flipper');
-
-                        $(pieces).removeClass('opened');
-                        $(pieces).removeClass('opened-p1');
-                        $(pieces).removeClass('opened-p2');
-
-                        for (var i = 0; i < pieces.length; i++){ 
-                            board.results[pieces[i].x][pieces[j].y] = 0;
-                        }
-                    } else { //else many
-
-                    }
-                } else if (effect[0] && effect[0].match(draw)){ // Drawing cards
-                    if (effect[1] && effect[1].match(one)){ // Resolves 'a'
-                        if (eval('player' + playerNo).hand.length < maxHandSize){
-                            eval('player' + playerNo).drawCard();
-                        }
-                    } else { //else many
-                        for (var i = 0; i < effect[1]; i++) {
-                            if (eval('player' + playerNo).hand.length < maxHandSize){
-                                eval('player' + playerNo).drawCard();
+                    if (effect[0] && effect[0].match(endTurn)) { // End turn
+                        window.console.log("End turn");
+                        global_board.endTurn();
+                    } else if (effect[0] && effect[0].match(deal)) { // Dealing damage
+                        if (effect[1] && effect[1].match(one)){ // Damage one
+                            if (effect[4] && effect[4].match(targetSelf)){
+                                window.console.log("Target self");
+                                damagingS = 1;
+                            } else if (effect[4] && effect[4].match(targetEnemy)){
+                                window.console.log("Target enemy");
+                                damagingE = 1;
+                            } else {
+                                damagingA = 1;
+                            }
+                        } else if (effect[1] && effect[1].match(every)) { // Damage all
+                            // damage everything
+                        } else { // else damage many
+                            if (effect[4] && effect[4].match(targetSelf)) {
+                                window.console.log("Target self");
+                                damagingS = effect[1];
+                            } else if (effect[4] && effect[4].match(targetEnemy)){
+                                window.console.log("Target enemy");
+                                damagingE = effect[1];
+                            } else {
+                                damagingA = effect[1];
                             }
                         }
-                    }
-                } else if (effect[0] && effect[0].match(freeze)){ // Freeze
-                    window.console.log(effect[1]);
-                    window.console.log(effect[1].match(one));
+                    } else if (effect[0] && effect[0].match(destroy)) { // Destroying piece or shield
+                        if (effect[2] && effect[2].match(shield)){ //if shield
+                            if (effect[1] && effect[1].match(one)){
+                                window.console.log("deshield 1");
+                                deshielding = 1;
+                            } else if (effect[1] && effect[1].match(every)) { // Deshield all
+                                window.console.log("Unshielding all!");
+                                for (var i = 0; i < 4; i++) {
+                                    for (var j = 0; j < 4; j++) {
+                                        if (board.results[i][j] === 0) {
+                                            board.shield[i][j] = 0;
+                                        }
+                                    }
+                                }
+                            } else { //else deshield many
+                                window.console.log("deshield lots");
+                                deshielding = effect[1];
+                            }
+                        } else { //
+                            if (effect[1] && effect[1].match(one)){
+                                if (effect[4] && effect[4].match(targetSelf)) {
+                                    window.console.log("Target self");
+                                }  else if (effect[4] && effect[4].match(targetEnemy)){
+                                    window.console.log("Target enemy");
+                                    damagingE = 1;
+                                } else {
+                                    window.console.log("Destroying one piece");
+                                    destroyingA = 1;
+                                }
+                            } else if (effect[1] && effect[1].match(every)) { // Destroy all
+                                window.console.log('Destroy all pieces');
+                                var pieces = $('.box.flipper');
 
-                    if (effect[1] && effect[1].match(one)){ // Resolves 'a'
-                        window.console.log("Doing a single frost... spoopy!");
-                        freezing = 1;
-                    } else if (effect[1] && effect[1].match(every)){ // Resolves 'all'
-                        window.console.log("Freezing all!");
-                        for (var i = 0; i < 4; i++) {
-                            for (var j = 0; j < 4; j++) {
-                                if (board.results[i][j] === 0) {
-                                    board.frost[i][j] = 2;
-                                    $('.box.flipper').addClass('frost');
+                                $(pieces).removeClass('flip');
+                                $(pieces).removeClass('opened');
+                                $(pieces).removeClass('opened-p1');
+                                $(pieces).removeClass('opened-p2');
+
+                                for (var i = 0; i < 4; i++){ 
+                                    for (var j = 0; j < 4; j++){
+                                        board.results[i][j] = 0;
+                                    }
+                                }
+
+                            } else { //else many
+                                if (effect[4] && effect[4].match(targetSelf)) {
+                                    window.console.log("Target self");
+                                    destroyingS = effect[1];
+                                } else if (effect[4] && effect[4].match(targetEnemy)){
+                                    window.console.log("Target enemy");
+                                    destroyingE = effect[1];
+                                } else {
+                                    destroyingA = effect[1];
                                 }
                             }
                         }
-                    } else { //else many
-                        freezing = effect[1];
-                    }
-                } else {
-                    //do nothing
-                } 
+                    } else if (effect[0] && effect[0].match(draw)){ // Drawing cards
+                        if (effect[1] && effect[1].match(one)){ // Resolves 'a'
+                            if (eval('player' + playerNo).hand.length < maxHandSize){
+                                eval('player' + playerNo).drawCard();
+                            }
+                        } else { //else many
+                            for (var i = 0; i < effect[1]; i++) {
+                                if (eval('player' + playerNo).hand.length < maxHandSize){
+                                    eval('player' + playerNo).drawCard();
+                                }
+                            }
+                        }
+                    } else if (effect[0] && effect[0].match(freeze)){ // Freeze
+                        window.console.log(effect[1]);
+                        window.console.log(effect[1].match(one));
+
+                        if (effect[1] && effect[1].match(one)){ // Resolves 'a'
+                            window.console.log("Doing a single frost... spoopy!");
+                            freezing = 1;
+                        } else if (effect[1] && effect[1].match(every)){ // Resolves 'all'
+                            window.console.log("Freezing all!");
+                            for (var i = 0; i < 4; i++) {
+                                for (var j = 0; j < 4; j++) {
+                                    if (board.results[i][j] === 0) {
+                                        board.frost[i][j] = 2;
+                                        $('.box.flipper').addClass('frost2');
+                                    }
+                                }
+                            }
+                        } else { //else many
+                            freezing = effect[1];
+                        }
+                    } else if (effect[0] && effect[0].match(thaw)){ // Thaw
+                        if (effect[1] && effect[1].match(one)){ // Resolves 'a'
+                            window.console.log("Doing a shield");
+                            thawing = 1;
+                        } else if (effect[1] && effect[1].match(every)){ // Resolves 'all'
+                            window.console.log("Freezing all!");
+                            for (var i = 0; i < 4; i++) {
+                                for (var j = 0; j < 4; j++) {
+                                    if (board.results[i][j] === 0) {
+                                        board.frost[i][j] = 0;
+                                    }
+                                }
+                            }
+                        } else { //else many
+                            thawing = effect[1];
+                        }
+                    } else if (effect[0] && effect[0].match(shield)){ // Thaw
+                        if (effect[1] && effect[1].match(one)){ // Resolves 'a'
+                            window.console.log("Doing a shield");
+                            shielding = 1;
+                        } else if (effect[1] && effect[1].match(every)){ // Resolves 'all'
+                            window.console.log("Freezing all!");
+                            for (var i = 0; i < 4; i++) {
+                                for (var j = 0; j < 4; j++) {
+                                    if (board.results[i][j] === 0) {
+                                        board.shields[i][j] = 1;
+                                    }
+                                }
+                            }
+                        } else { //else many
+                            shielding = effect[1];
+                        }
+                    } else if (effect[0] && effect[0].match(discarding)){
+
+                    } else {
+                        //do nothing
+                    } 
+
+                    cards_to_play -= 1;
+                    update_variable_display();
+                    update_grid_display();
+                }
+
+                window.console.log("DaE: " + damagingE + ", DaS: " + damagingS + ", DeE: " + destroyingE + ", DeS: " + destroyingS + ", Sh: " + shielding + ", Fr: " + freezing+ ", Bl: " + blocking);
+
+                this.cardBody.remove();
+                delete this;
+            } else {
+                window.alert("No more cards can be played this turn");
             }
-
-            window.console.log("DaE: " + damagingE + ", DaS: " + damagingS + ", DeE: " + destroyingE + ", DeS: " + destroyingS + ", Sh: " + shielding + ", Fr: " + freezing+ ", Bl: " + blocking);
-
-            this.cardBody.remove();
-            delete this;
         };
 
         this.createCard = function(playerNo){
@@ -232,7 +337,7 @@ $(function(){
         };
 
         this.drawCard = function(){
-            if (this.deck.length > 0) {
+            if (this.deck.length > 0 && this.hand.length < maxHandSize) {
                 this.deck[0].createCard(this.playerNo);
                 this.hand.push(this.deck[0]);
                 this.deck.splice(0,1);
@@ -304,94 +409,156 @@ $(function(){
             
             }
 
-            var tiles = $('.box.flipper');
+            // Remove fronts
             for (var i = 0; i < 4; i++){
                 for (var j = 0; j < 4; j++){
-                    if (tiles.x === i && tiles.y === j) {
-                        tiles.removeClass('frost');
+                    if (this.frost[i][j] === 1) {
+                        this.frost[i][j] = 0;
+                        target = $('div[x="' + i + '"][y="' + j + '"]:first');
+                        target.removeClass('frost1');
+                    }
+                    //this.frost[i][j] = (this.frost[i][j] > 0) ? this.frost[i][j] - 1: 0;
+                    if (this.frost[i][j] === 2) {
+                        this.frost[i][j] = 1;
+                        target = $('div[x="' + i + '"][y="' + j + '"]:first');
+                        target.removeClass('frost2');
+                        target.addClass('frost1');
                     }
 
-                    this.frost[i][j] = (this.frost[i][j] > 0) ? this.frost[i][j] - 1: 0;
-                    this.rock[i][j] = (this.rock[i][j] > 0) ? this.rock[i][j] - 1: 0;
+                    //this.rock[i][j] = (this.rock[i][j] > 0) ? this.rock[i][j] - 1: 0;
                 }
             }
 
-            damagingE = 0;
-            destroyingE = 0;
-            damagingS = 0;
-            destroyingS = 0;
-            shielding = 0;
-            freezing = 0;
+            cards_to_play = 1,
+            damagingA = 0,
+            damagingE = 0,
+            damagingS = 0,
+            destroyingA = 0,
+            destroyingE = 0,
+            destroyingS = 0,
+            discarding = 0,
+            shielding = 0,
+            deshielding = 0,
+            freezing = 0,
+            thawing = 0,
             blocking = 0;
+
+            update_variable_display();
         };
 
         // Handle cell click
         this.updateCell = function(row,col){
-            window.console.log('clicked');
+            window.console.log('Clicked on ' + this + '/' + $(this));
+
             if (this.results[row][col] !== 0 || this.frost[row][col] >= 1 || this.rock[row][col] >= 1){
                 window.console.log("The cell is occupied!");
                 if (this.results[row][col] !== 0) { // Piece
-                    if (destroyingE > 0) {
+                    if (destroyingA > 0) { //Destroying enemy
+                        window.console.log('Destroying any piece');
+                        this.results[row][col] = 0;
+                        window.console.log(this.results);
+                        
+
+                        target = $('div[x="' + row + '"][y="' + col + '"]:first');
+                        $(target).removeClass('flip');
+                        $(target).removeClass('opened');
+                        $(target).removeClass('opened-p1');
+                        $(target).removeClass('opened-p2');
+
+                        destroyingA -= 1;
+                    } if (destroyingE > 0) { //Destroying enemy
                         if (this.results[row][col] !== this.currentPlayer) {
-                            board.results[this.getAttribute('x')][this.getAttribute('y')] = 0;
-                            window.console.log(board.results);
-                            //rebind piece placing on square
-                            $(this).removeClass('opened');
-                            $(this).removeClass('opened-p1');
-                            $(this).removeClass('opened-p2');
+                            window.console.log('Destroying an enemy');
+                            this.results[row][col] = 0;
+                            window.console.log(this.results);
+                            
+                            target = $('div[x="' + row + '"][y="' + col + '"]:first');
+                            $(target).removeClass('flip');
+                            $(target).removeClass('opened');
+                            $(target).removeClass('opened-p1');
+                            $(target).removeClass('opened-p2');
 
                             destroyingE -= 1;
                         }
                     } else if (destroyingS > 0) { //Destroying
                         if (this.results[row][col] === this.currentPlayer) {
-                            board.results[this.getAttribute('x')][this.getAttribute('y')] = 0;
-                            window.console.log(board.results);
-                            //rebind piece placing on square
-                            $(this).removeClass('opened');
-                            $(this).removeClass('opened-p1');
-                            $(this).removeClass('opened-p2');
+                            window.console.log('Destroying own piece');
+                            this.results[row][col] = 0;
+                            window.console.log(this.results);
+                            
+                            target = $('div[x="' + row + '"][y="' + col + '"]:first');
+                            $(target).removeClass('flip');
+                            $(target).removeClass('opened');
+                            $(target).removeClass('opened-p1');
+                            $(target).removeClass('opened-p2');
 
                             destroyingS -= 1;
                         }
+                    } else if (damagingA > 0) {
+                        window.console.log('Damaging any');
+                        this.results[row][col] = 0;
+                        window.console.log(this.results);
+                        
+                        target = $('div[x="' + row + '"][y="' + col + '"]:first');
+                        $(target).removeClass('flip');
+                        $(target).removeClass('opened');
+                        $(target).removeClass('opened-p1');
+                        $(target).removeClass('opened-p2');
+
+                        damagingA -= 1;
                     } else if (damagingE > 0) {
                         if (this.results[row][col] !== this.currentPlayer) {
-                            board.results[this.getAttribute('x')][this.getAttribute('y')] = 0;
-                            window.console.log(board.results);
-                            //rebind piece placing on square
-                            $(this).removeClass('opened');
-                            $(this).removeClass('opened-p1');
-                            $(this).removeClass('opened-p2');
-
+                            window.console.log('Damaging enemy');
+                            this.results[row][col] = 0;
+                            window.console.log(this.results);
+                            
+                            target = $('div[x="' + row + '"][y="' + col + '"]:first');
+                            $(target).removeClass('flip');
+                            $(target).removeClass('opened');
+                            $(target).removeClass('opened-p1');
+                            $(target).removeClass('opened-p2');
+    
                             damagingE -= 1;
                         }
                     } else if (damagingS > 0) { //Damaging
-                        if (this.results[row][col] !== this.currentPlayer) {
-                            board.results[this.getAttribute('x')][this.getAttribute('y')] = 0;
-                            window.console.log(board.results);
-                            //rebind piece placing on square
-                            $(this).removeClass('opened');
-                            $(this).removeClass('opened-p1');
-                            $(this).removeClass('opened-p2');
+                        if (this.results[row][col] === this.currentPlayer) {
+                            window.console.log('Damaging own piece');
+                            this.results[row][col] = 0;
+                            window.console.log(this.results);
+                            
+                            target = $('div[x="' + row + '"][y="' + col + '"]:first');
+                            $(target).removeClass('flip');
+                            $(target).removeClass('opened');
+                            $(target).removeClass('opened-p1');
+                            $(target).removeClass('opened-p2');
 
                             damagingS -= 1;
                         }
                     } else if (shielding > 0) {
                         shielding -= 1;
+                    } else if (deshielding > 0) {
+                        deshielding -= 1;
                     }
-                } else if (this.frost[row][col] >= 1) { 
+                } else if (this.frost[row][col] >= 1 && thawing > 0) {
+                    window.console.log ("Thawing out a square");
+                    target = $('div[x="' + row + '"][y="' + col + '"]:first');
+                    $(target).removeClass('frost1');
+                    $(target).removeClass('frost2');
 
-                } else if (this.rock[row][col] >= 1) {
+                } else if (this.rock[row][col] >= 1 && deblocking > 0) {
 
                 }
             } else { // Cell is empty
                 if (freezing > 0) {
-                    board.frost[row][col] === 2;
-                    $('.box.flipper').addClass('frost2'); //does all
+                    this.frost[row][col] = 2;
+                    target = $('div[x="' + row + '"][y="' + col + '"]:first');
+                    target.addClass('frost2'); //does all
 
                     freezing -= 1;
                 } else if (blocking > 0) {
-                    board.rock[row][col] === 3;
-                    $('.box.flipper').addClass('frost2');
+                    board.rock[row][col] = 3;
+                    target = $('div[x="' + row + '"][y="' + col + '"]:first');
+                    target.addClass('frost2');
 
                     blocking -= 1;
                 } else { //place piece
@@ -402,7 +569,7 @@ $(function(){
 
                     this.results[row][col] = this.currentPlayer;
                     piece.square.addClass("opened flip");
-                    $(piece.square).unbind();
+                    //$(piece.square).unbind();
                     
                     if (this.currentPlayer === 1){
                         piece.square.addClass("opened-p1");
@@ -415,6 +582,9 @@ $(function(){
                     this.endTurn();
                 }
             }
+
+            update_variable_display();
+            update_grid_display();
         };
 
         // Return correct piece markerclass
@@ -424,6 +594,7 @@ $(function(){
 
         // Turn execution function
         this.playGame = function(row,col){
+            window.console.log('playing');
             if (this.determineWinner() === undefined){
                 this.updateCell(row, col);
             }
@@ -488,17 +659,25 @@ $(function(){
 
     var b = new Board();
     b.initiateBoard();
+    global_board = b;
 
     var player1 = new Player(1);
     var player2 = new Player(2);
     player1.createDeck();
     player2.createDeck();
 
+    update_variable_display();
+    update_grid_display();
+
     for (var i = 0; i < startHandSize; i++) {
         player1.drawCard();
     }
     for (var i = 0; i < startHandSize; i++) {
         player2.drawCard();
+    }
+
+    for (var i = 0; i < player2.hand.length; i++) {
+        player2.hand[i].cardBody.addClass('hidden');
     }
 
     //$(".p1-hand").sortable();

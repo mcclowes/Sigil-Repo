@@ -88,8 +88,18 @@ body {
         background-size: 100%;
     }
 
+    .opened-p1.flip.shielded {
+        background-image: url("../img/piece_p1_shielded.png");
+        background-size: 100%;
+    }
+
     .opened-p2.flip {
         background-image: url("../img/piece_p2.png");
+        background-size: 100%;
+    }
+
+    .opened-p2.flip.shielded {
+        background-image: url("../img/piece_p2_shielded.png");
         background-size: 100%;
     }
 
@@ -229,6 +239,12 @@ body {
     }
 }
 
+.debug_box {
+	position: absolute;
+	top: 20px;
+	left: 20px;
+	text-align: left;
+}
 
 
 // ---------------------------- Deck Builder ------------------------------ //
@@ -263,4 +279,22 @@ body {
     height: 100%;
     float: left;
     background-color: grey;
+}
+
+
+
+// --------------------------- Cursor ---------------------------------- //
+
+html {
+	cursor: url(http://www.rw-designer.com/cursor-extern.php?id=76012), auto;
+	//cursor: url(http://www.rw-designer.com/cursor-extern.php?id=76022), pointer;
+}
+
+.card {
+	//cursor: url(http://www.rw-designer.com/cursor-extern.php?id=76023), auto;
+	cursor: url(http://www.rw-designer.com/cursor-extern.php?id=76022), pointer;
+}
+
+button {
+	cursor: url(http://www.rw-designer.com/cursor-extern.php?id=76022), pointer;
 }
