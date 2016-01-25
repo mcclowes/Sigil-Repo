@@ -75,7 +75,6 @@ body {
     .box:hover{
         background-color: rgba(0, 0, 0, .2);
         background-size: 100%;
-        cursor: pointer;
     }
 
     .opened > div{
@@ -112,23 +111,36 @@ body {
         background-image: url("../img/frost2.png");
         background-size: 100%;
     }
+
+    .rock1 {
+        background-image: url("../img/rock1.png");
+        background-size: 100%;
+    }
+
+    .rock2 {
+        background-image: url("../img/rock2.png");
+        background-size: 100%;
+    }
+
+    .rock3 {
+        background-image: url("../img/rock3.png");
+        background-size: 100%;
+    }
 }
 
 .wrapper.p1-turn {
-    .box:not(.opened):not(.frost):not(.block):hover{
+    .box:not(.opened):not(.frost1):not(.frost2):not(.rock1):not(.rock2):not(.rock3):hover{
         background-image: url("../img/piece_p1.png");
         background-size: 100%;
         opacity: 0.5;
-        cursor: pointer;
     }
 }
 
 .wrapper.p2-turn {
-    .box:not(.opened):not(.frost):not(.block):hover{
+    .box:not(.opened):not(.frost1):not(.frost2):not(.rock1):not(.rock2):not(.rock3):hover{
         background-image: url("../img/piece_p2.png");
         background-size: 100%;
         opacity: 0.5;
-        cursor: pointer;
     }
 }
 
@@ -178,6 +190,10 @@ body {
         margin-top: 115px;
         min-height: 60px;
     }
+}
+
+.card.playable {
+	box-shadow: 10px 10px 5px rgba(0, 0, 0, .2),  0px 0px 10px #32CD32;
 }
 
 .card.drawn:hover{
@@ -239,6 +255,18 @@ body {
     }
 }
 
+.p1-hand {
+	.card.hidden {
+    	background-image: url("../img/card_back1.png");
+    }
+}
+
+.p2-hand {
+	.card.hidden {
+    	background-image: url("../img/card_back2.png");
+    }
+}
+
 .debug_box {
 	position: absolute;
 	top: 20px;
@@ -246,6 +274,18 @@ body {
 	text-align: left;
 }
 
+//#endTurnButton.finished {
+//#endTurnButton.notFinished {
+#endTurnButton {
+	box-shadow: 0px 0px 10px #32CD32;
+}
+
+button {
+	padding: 10px;
+	border: none;
+	border-radius: 3px;
+	font-weight: bold;
+}
 
 // ---------------------------- Deck Builder ------------------------------ //
 
@@ -285,16 +325,24 @@ body {
 
 // --------------------------- Cursor ---------------------------------- //
 
-html {
+html,
+.box.opened.flipper.flip {
 	cursor: url(http://www.rw-designer.com/cursor-extern.php?id=76012), auto;
 	//cursor: url(http://www.rw-designer.com/cursor-extern.php?id=76022), pointer;
 }
 
 .card {
 	//cursor: url(http://www.rw-designer.com/cursor-extern.php?id=76023), auto;
-	cursor: url(http://www.rw-designer.com/cursor-extern.php?id=76022), pointer;
+	cursor: url(http://www.rw-designer.com/cursor-extern.php?id=76022), auto;
 }
 
 button {
-	cursor: url(http://www.rw-designer.com/cursor-extern.php?id=76022), pointer;
+	cursor: url(http://www.rw-designer.com/cursor-extern.php?id=76022), auto;
+}
+
+.box:not(.frost1):not(.frost2),
+.wrapper,
+.flip-container,
+li {
+	cursor: url(http://www.rw-designer.com/cursor-extern.php?id=76022), auto;
 }

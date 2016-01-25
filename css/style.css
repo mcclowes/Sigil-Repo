@@ -65,7 +65,6 @@ body h1 {
 .flip-container .box:hover {
   background-color: rgba(0, 0, 0, 0.2);
   background-size: 100%;
-  cursor: pointer;
 }
 .flip-container .opened > div {
   font-weight: bold;
@@ -95,17 +94,27 @@ body h1 {
   background-image: url("../img/frost2.png");
   background-size: 100%;
 }
-.wrapper.p1-turn .box:not(.opened):not(.frost):not(.block):hover {
+.flip-container .rock1 {
+  background-image: url("../img/rock1.png");
+  background-size: 100%;
+}
+.flip-container .rock2 {
+  background-image: url("../img/rock2.png");
+  background-size: 100%;
+}
+.flip-container .rock3 {
+  background-image: url("../img/rock3.png");
+  background-size: 100%;
+}
+.wrapper.p1-turn .box:not(.opened):not(.frost1):not(.frost2):not(.rock1):not(.rock2):not(.rock3):hover {
   background-image: url("../img/piece_p1.png");
   background-size: 100%;
   opacity: 0.5;
-  cursor: pointer;
 }
-.wrapper.p2-turn .box:not(.opened):not(.frost):not(.block):hover {
+.wrapper.p2-turn .box:not(.opened):not(.frost1):not(.frost2):not(.rock1):not(.rock2):not(.rock3):hover {
   background-image: url("../img/piece_p2.png");
   background-size: 100%;
   opacity: 0.5;
-  cursor: pointer;
 }
 .hand.p1-hand {
   position: absolute;
@@ -148,6 +157,9 @@ body h1 {
 .card .cardEffects {
   margin-top: 115px;
   min-height: 60px;
+}
+.card.playable {
+  box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.2), 0px 0px 10px #32CD32;
 }
 .card.drawn:hover {
   z-index: 100;
@@ -192,11 +204,26 @@ body h1 {
 .card.hidden div {
   visibility: hidden;
 }
+.p1-hand .card.hidden {
+  background-image: url("../img/card_back1.png");
+}
+.p2-hand .card.hidden {
+  background-image: url("../img/card_back2.png");
+}
 .debug_box {
   position: absolute;
   top: 20px;
   left: 20px;
   text-align: left;
+}
+#endTurnButton {
+  box-shadow: 0px 0px 10px #32CD32;
+}
+button {
+  padding: 10px;
+  border: none;
+  border-radius: 3px;
+  font-weight: bold;
 }
 .card.drawn.spaced {
   margin-right: 10px !important;
@@ -224,12 +251,19 @@ body h1 {
   float: left;
   background-color: grey;
 }
-html {
+html,
+.box.opened.flipper.flip {
   cursor: url(http://www.rw-designer.com/cursor-extern.php?id=76012), auto;
 }
 .card {
-  cursor: url(http://www.rw-designer.com/cursor-extern.php?id=76022), pointer;
+  cursor: url(http://www.rw-designer.com/cursor-extern.php?id=76022), auto;
 }
 button {
-  cursor: url(http://www.rw-designer.com/cursor-extern.php?id=76022), pointer;
+  cursor: url(http://www.rw-designer.com/cursor-extern.php?id=76022), auto;
+}
+.box:not(.frost1):not(.frost2),
+.wrapper,
+.flip-container,
+li {
+  cursor: url(http://www.rw-designer.com/cursor-extern.php?id=76022), auto;
 }
