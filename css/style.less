@@ -1,3 +1,10 @@
+// Mixins
+
+@import url('cards.less');
+
+
+// Main
+
 body {
     font-family: 'helvetica';
     background-color: #dedede;
@@ -199,72 +206,6 @@ body {
 .card.drawn:hover{
     z-index: 100;
     transform: scale(1.1, 1.1);
-}
-
-// Cards
-
-.card.fire_blast {
-    background-image: url("../img/card_fire_blast.png");
-}
-
-.card.armour_up {
-    background-image: url("../img/card_armour_up.png");
-}
-
-.card.ice_blast {
-    background-image: url("../img/card_ice_blast.png");
-}
-
-.card.frost {
-    background-image: url("../img/card_frost.png");
-}
-
-.card.sabotage {
-    background-image: url("../img/card_sabotage.png");
-}
-
-.card.summer {
-    background-image: url("../img/card_summer.png");
-}
-
-.card.sacrifice {
-    background-image: url("../img/card_sacrifice.png");
-}
-
-.card.boulder {
-    background-image: url("../img/card_boulder.png");
-}
-
-.card.flurry {
-    background-image: url("../img/card_flurry.png");
-}
-
-.card.floods {
-    background-image: url("../img/card_floods.png");
-}
-
-.card.taxes {
-    background-image: url("../img/card_taxes.png");
-}
-
-.card.hidden {
-    background-image: url("../img/card_back.png");
-
-    div {
-        visibility: hidden;
-    }
-}
-
-.p1-hand {
-	.card.hidden {
-    	background-image: url("../img/card_back1.png");
-    }
-}
-
-.p2-hand {
-	.card.hidden {
-    	background-image: url("../img/card_back2.png");
-    }
 }
 
 .debug_box {

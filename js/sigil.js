@@ -88,9 +88,11 @@ $(function(){
             window.console.log($(this));
 
             if (discarding > 0) {
+                var discardingSelf = this;
                 discarding = discarding - 1;
                 update_variable_display();
                 update_grid_display();
+                //Need to remove it from player's hand
                 this.cardBody.remove();
                 delete this;
             } else if (cards_to_play > 0 && this.checkPlayable() === true) {
@@ -98,7 +100,8 @@ $(function(){
                 $(this.cardBody).fadeOut(300); // this is not gonna show unless a time delay is applied on the next part
 
                 // Regex expression definitions
-                var deal,
+                var conditionIf,
+                    deal,
                     destroy,
                     draw,
                     one,
@@ -110,16 +113,18 @@ $(function(){
                     thaw,
                     shield,
                     block,
-                    discard;
+                    discard,
+                    hand;
 
-                deal = new RegExp("^deal$", "i");       // ^x$ dictates explicit regex matching
+                conditionIf = new RegExp("^if$", "i");
+                deal = new RegExp("^deal$|^damage$", "i");       // ^x$ dictates explicit regex matching
                 destroy = new RegExp("^destroy$|^remove$", "i");
-                draw = new RegExp("^draw$", "i");
+                draw = new RegExp("^draw$|^draws$", "i");
                 one = new RegExp("^a$|^1$", "i");
                 every = new RegExp("^all$|^every$", "i");
                 endTurn = new RegExp("^end$", "i");
                 targetSelf = new RegExp("^your$|^yours$", "i");
-                targetEnemy = new RegExp("^enemy$", "i");
+                targetEnemy = new RegExp("^enemy$|^opponent$", "i");
                 freeze = new RegExp("^freeze$", "i");
                 thaw = new RegExp("^thaw$", "i");
                 shield = new RegExp("^shield$|^shields$", "i");
@@ -327,6 +332,36 @@ $(function(){
                         } else {
                             discarding = effect[1];
                         }
+                    } else if (effect[0] && effect[0].match(targetSelf)){ //Your
+                        if (effect[1] && effect[1].match(targetEnemy)){ // Your enemy
+                            if (effect[2] && effect[2].match(draw)){ // Your enemy draws
+                                window.console.log("Your enemy draws cards")
+                                var playerEnemy = 1;
+                                if (playerNo === 1) { playerEnemy = 2; } 
+                                if (effect[1] && effect[1].match(one)){ // Resolves 'a'
+                                    if (eval('player' + playerEnemy).hand.length < maxHandSize){
+                                        eval('player' + playerEnemy).drawCard();
+                                    }
+                                } else {
+                                    for (var k = 0; k < effect[3]; k++){
+                                        if (eval('player' + playerEnemy).hand.length < maxHandSize){
+                                            eval('player' + playerEnemy).drawCard();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    } else if (effect[0] && effect[0].match(conditionIf)){ //Discarding
+                        window.console.log("Doign an if");
+                        if (effect[1] && effect[1].match(targetSelf)){ // Resolves 'a'
+                            if (effect[3] && effect[3].match(conditionLeast)) {
+                                if (effect[3] && effect[3].match(piece)) {
+                                    
+                                } else if (effect[3] && effect[3].match(shield)) {
+                                
+                                }
+                            }
+                        }
                     } else {
                         //do nothing
                     } 
@@ -336,6 +371,7 @@ $(function(){
                     update_grid_display();
                 }
 
+                //Need to remove it from player's hand
                 this.cardBody.remove();
                 delete this;
             } else {
@@ -369,8 +405,7 @@ $(function(){
 
     function Piece() {
         this.row = -1,
-        this.col = -1,
-        this.shielded = false; //remove?
+        this.col = -1;
     }
 
     function Player(number) {
@@ -424,7 +459,15 @@ $(function(){
                 this.hand.push(this.deck[0]);
                 this.deck.splice(0,1);
 
+                if ((global_board.currentPlayer === this.playerNo) || (global_board.currentPlayer === -1 && this.playerNo === 2)){
+                    window.console.log("Own turn");
+                } else {
+                    $(this.hand[this.hand.length - 1].cardBody).addClass("hidden");
+                }
+
                 $('.hand').append();
+            } else {
+                window.console.log("Hand full - " + this.deck.length + ", " + this.hand.length);
             }
 
         };
@@ -547,6 +590,9 @@ $(function(){
                         
 
                         var target = $('div[x="' + row + '"][y="' + col + '"]:first');
+                        if ($(target).hasClass('shielded')) {
+                            $(target).removeClass('shielded');
+                        }
                         $(target).removeClass('flip');
                         $(target).removeClass('opened');
                         $(target).removeClass('opened-p1');
@@ -560,6 +606,9 @@ $(function(){
                             window.console.log(this.results);
                             
                             var target = $('div[x="' + row + '"][y="' + col + '"]:first');
+                            if ($(target).hasClass('shielded')) {
+                                $(target).removeClass('shielded');
+                            }
                             $(target).removeClass('flip');
                             $(target).removeClass('opened');
                             $(target).removeClass('opened-p1');
@@ -574,6 +623,9 @@ $(function(){
                             window.console.log(this.results);
                             
                             var target = $('div[x="' + row + '"][y="' + col + '"]:first');
+                            if ($(target).hasClass('shielded')) {
+                                $(target).removeClass('shielded');
+                            }
                             $(target).removeClass('flip');
                             $(target).removeClass('opened');
                             $(target).removeClass('opened-p1');

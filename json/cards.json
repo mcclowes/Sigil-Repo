@@ -1,6 +1,7 @@
 cards = [
 	{
 		"name": "Fire Blast",
+		"rarity": "Basic",
 		"effects":
 			[
 				"Deal 1 damage"
@@ -9,6 +10,7 @@ cards = [
 
 	{
 		"name": "Floods",
+		"rarity": "Rare",
 		"effects":
 			[
 				"Destroy all pieces",
@@ -18,6 +20,7 @@ cards = [
 
 	{
 		"name": "Armour Up",
+		"rarity": "Basic",
 		"effects":
 			[
 				"Shield a piece",
@@ -27,6 +30,7 @@ cards = [
 
 	{
 		"name": "Flurry",
+		"rarity": "Rare",
 		"effects":
 			[
 				"Deal 2 damage to your pieces",
@@ -36,6 +40,7 @@ cards = [
 
 	{
 		"name": "Sabotage",
+		"rarity": "Elite",
 		"effects":
 			[
 				"Remove 5 shields"
@@ -44,6 +49,7 @@ cards = [
 
 	{
 		"name": "Summer",
+		"rarity": "Basic",
 		"effects":
 			[
 				"Thaw 1 square",
@@ -53,6 +59,7 @@ cards = [
 
 	{
 		"name": "Ice Blast",
+		"rarity": "Basic",
 		"effects":
 			[
 				"Freeze a square"
@@ -61,6 +68,7 @@ cards = [
 
 	{
 		"name": "Sacrifice",
+		"rarity": "Rare",
 		"effects":
 			[
 				"Destroy a piece of yours",
@@ -70,6 +78,7 @@ cards = [
 
 	{
 		"name": "Boulder",
+		"rarity": "Rare",
 		"effects":
 			[
 				"Discard a card",
@@ -79,6 +88,7 @@ cards = [
 
 	{
 		"name": "Frost",
+		"rarity": "Basic",
 		"effects":
 			[
 				"Freeze all squares"
@@ -87,10 +97,42 @@ cards = [
 
 	{
 		"name": "Taxes",
+		"rarity": "Rare",
 		"effects":
 			[
 				"Discard 2 cards",
 				"Shield 3 pieces"
+			]
+	},
+
+	{
+		"name": "Barrage",
+		"rarity": "Basic",
+		"effects":
+			[
+				"Damage all pieces",
+				"Discard 2 cards"
+			]
+	},
+
+	{
+		"name": "Bezerker",
+		"rarity": "Rare",
+		"effects":
+			[
+				"Discard a card",
+				"Deal 1 damage",
+				"If you have the least pieces, return this card to your hand"
+			]
+	},
+
+	{
+		"name": "Reckless",
+		"rarity": "Rare",
+		"effects":
+			[
+				"Your opponent draws 2 cards",
+				"Destroy a piece"
 			]
 	}
 ]
